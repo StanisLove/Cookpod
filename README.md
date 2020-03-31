@@ -1,3 +1,5 @@
+![](https://github.com/StanisLove/Cookpod/workflows/Elixir%20CI/badge.svg)
+
 # Cookpod
 
 To start your Phoenix server:
