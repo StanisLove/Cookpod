@@ -5,7 +5,7 @@ config :cookpod, Cookpod.Repo,
   username: "username",
   password: "password",
   database: "cookpod_test",
-  hostname: "db",
+  hostname: "localhost",
   port: 6432,
   pool: Ecto.Adapters.SQL.Sandbox
 
