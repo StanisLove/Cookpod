@@ -1,4 +1,5 @@
 ![](https://github.com/StanisLove/Cookpod/workflows/Elixir%20CI/badge.svg)
+[![codebeat badge](https://codebeat.co/badges/bcda59e8-9103-4047-b66b-b4dea660cb4a)](https://codebeat.co/projects/github-com-stanislove-cookpod-master)
 
 # Cookpod
 
