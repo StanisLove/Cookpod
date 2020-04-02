@@ -17,10 +17,11 @@ jobs:
 
     services:
       db:
-        image: postgres:11
+        image: postgres:10
         env:
-          POSTGRES_PASSWORD: postgres
-        ports: ['5432:5432']
+          POSTGRES_USER: username
+          POSTGRES_PASSWORD: password
+        ports: ['6432:5432']
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
