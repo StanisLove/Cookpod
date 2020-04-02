@@ -59,5 +59,9 @@ jobs:
     - name: Run Tests
       run: mix test
 
-    - name: Run Coveralls
-      run: mix coveralls.github
+    - name: Push Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        flags: unittests # optional
+        name: codecov-umbrella # optional
+        fail_ci_if_error: true # optional (default = false)
