@@ -14,6 +14,7 @@ defmodule CookpodWeb.ChannelCase do
   by setting `use CookpodWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
+  alias Ecto.Adapters.SQL.Sandbox
 
   use ExUnit.CaseTemplate
 
@@ -28,10 +29,10 @@ defmodule CookpodWeb.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Cookpod.Repo)
+    :ok = Sandbox.checkout(Cookpod.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Cookpod.Repo, {:shared, self()})
+      Sandbox.mode(Cookpod.Repo, {:shared, self()})
     end
 
     :ok
