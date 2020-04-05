@@ -31,3 +31,5 @@ changed_files = Enum.reduce(changed_files, [], fn x, acc -> ["--files-included",
 if status == 0, do: System.halt(0)
 
 IO.puts(output)
+
+System.halt(1)
