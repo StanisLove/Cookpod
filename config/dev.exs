@@ -2,10 +2,11 @@ use Mix.Config
 
 # Configure your database
 config :cookpod, Cookpod.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "username",
+  password: "password",
   database: "cookpod_dev",
   hostname: "localhost",
+  port: 6432,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
