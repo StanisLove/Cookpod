@@ -28,8 +28,6 @@ changed_files = Enum.reduce(changed_files, [], fn x, acc -> ["--files-included",
 
 {output, status} = System.cmd("mix", ["credo", "--strict" | changed_files])
 
-IO.puts "Status: #{status}"
-
-if status == 0, do: System.stop(0)
+if status == 0, do: System.halt(0)
 
 IO.puts(output)
