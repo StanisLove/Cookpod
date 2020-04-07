@@ -1,2 +1,6 @@
+span style="font-size: 48px; color: orange;"
+  i.fab.fa-font-awesome
 h2 Terms of use
 p You can do anything on you own risk
+
+= button("Home page", to: "/", method: :get, class: "btn btn-primary")

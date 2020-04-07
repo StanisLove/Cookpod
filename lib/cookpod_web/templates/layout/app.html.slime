@@ -6,20 +6,20 @@ html lang="en"
     meta content="width=device-width, initial-scale=1" name="viewport"
     title Cookpod · Phoenix Framework
     link rel="stylesheet" href="#{Routes.static_path(@conn, "/css/app.css")}"
+    script src="https://kit.fontawesome.com/44bce94adc.js" crossorigin="anonymous"
 
   body
     header
       section.container
-        nav role="navigation"
-          ul
-            li
-              a href="https://hexdocs.pm/phoenix/overview.html" Get Started
+        br
         a.phx-logo href="http://phoenixframework.org/"
           img src="#{ Routes.static_path(@conn, "/images/phoenix.png") }" alt="Phoenix Framework Logo"
 
     main.container role="main"
-      p.alert.alert-info role="alert"= get_flash(@conn, :info)
-      p.alert.alert-danger role="alert"= get_flash(@conn, :error)
+      = unless is_nil(get_flash(@conn, :info)) do
+        p.alert.alert-info role="alert"= get_flash(@conn, :info)
+      = unless is_nil(get_flash(@conn, :error)) do
+        p.alert.alert-danger role="alert"= get_flash(@conn, :error)
       = render @view_module, @view_template, assigns
 
     script type="text/javascript" src="#{Routes.static_path(@conn, "/js/app.js")}"
