@@ -1,6 +1,6 @@
 span style="font-size: 48px; color: orange;"
   i.fab.fa-font-awesome
-h2 Terms of use
-p You can do anything on you own risk
+h2= gettext "Terms of use"
+p= gettext "%{name} can do anything on you own risk", name: "You"
 
-= button("Home page", to: "/", method: :get, class: "btn btn-primary")
+= button(gettext("Home page"), to: "/", method: :get, class: "btn btn-primary")

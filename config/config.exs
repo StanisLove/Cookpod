@@ -18,6 +18,8 @@ config :cookpod, CookpodWeb.Endpoint,
   pubsub: [name: Cookpod.PubSub, adapter: Phoenix.PubSub.PG2],
   live_view: [signing_salt: "ZSXyAgxp"]
 
+config :cookpod, CookpodWeb.Gettext, default_locale: "ru", locales: ~w(en ru)
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
