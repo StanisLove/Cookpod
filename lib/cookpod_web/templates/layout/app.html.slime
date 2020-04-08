@@ -14,6 +14,9 @@ html lang="en"
         br
         a.phx-logo href="http://phoenixframework.org/"
           img src="#{ Routes.static_path(@conn, "/images/phoenix.png") }" alt="Phoenix Framework Logo"
+        = new_locale(@conn, :en, "En")
+        span |
+        = new_locale(@conn, :ru, "Ru")
 
     main.container role="main"
       = unless is_nil(get_flash(@conn, :info)) do
