@@ -1,0 +1,28 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta content="IE=edge" http-equiv="X-UA-Compatible"
+    meta content="width=device-width, initial-scale=1" name="viewport"
+    title Cookpod · Phoenix Framework
+    link rel="stylesheet" href="#{Routes.static_path(@conn, "/css/app.css")}"
+    script src="https://kit.fontawesome.com/44bce94adc.js" crossorigin="anonymous"
+
+  body
+    header
+      section.container
+        br
+        a.phx-logo href="http://phoenixframework.org/"
+          img src="#{ Routes.static_path(@conn, "/images/phoenix.png") }" alt="Phoenix Framework Logo"
+        = new_locale(@conn, :en, "En")
+        span |
+        = new_locale(@conn, :ru, "Ru")
+
+    main.container role="main"
+      = unless is_nil(get_flash(@conn, :info)) do
+        p.alert.alert-info role="alert"= get_flash(@conn, :info)
+      = unless is_nil(get_flash(@conn, :error)) do
+        p.alert.alert-danger role="alert"= get_flash(@conn, :error)
+      = render @view_module, @view_template, assigns
+
+    script type="text/javascript" src="#{Routes.static_path(@conn, "/js/app.js")}"
