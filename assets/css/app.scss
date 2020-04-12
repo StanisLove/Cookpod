@@ -7,6 +7,14 @@ header {
   background-color: purple;
   height: 85px;
 
+  a {
+    color: darkorange;
+  }
+
+  a:hover {
+    color: white;
+  }
+
   section {
     height: inherit;
 
@@ -32,7 +40,6 @@ header {
 
     .locale-switcher {
       a, span {
-        color: darkorange;
         margin: 0 2px;
       }
     }

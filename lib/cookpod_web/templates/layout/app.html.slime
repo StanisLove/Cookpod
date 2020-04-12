@@ -14,6 +14,8 @@ html lang="en"
         .logo
           img src="#{ Routes.static_path(@conn, "/images/burger.png") }" alt="Cookpod App"
         h1.align-self-center Cookpod App
+        a.align-self-center href="#{Routes.page_path(@conn, :terms)}"
+          = gettext "Terms of use"
         .locale-switcher.align-self-center.ml-auto
           = new_locale(@conn, :en, "En")
           span |
