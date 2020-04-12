@@ -2,3 +2,44 @@
 
 @import "custom";
 @import "~bootstrap/scss/bootstrap";
+
+header {
+  background-color: purple;
+  height: 85px;
+
+  section {
+    height: inherit;
+
+    .logo {
+      height: inherit;
+      display: inline-block;
+
+      img {
+        max-height: 95%;
+        height: auto;
+        width: auto;
+      }
+    }
+
+    h1 {
+      display: inline-block;
+      margin: 0 20px;
+      font-size: 3rem;
+      color: white;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .locale-switcher {
+      a, span {
+        color: darkorange;
+        margin: 0 2px;
+      }
+    }
+
+    .sign-in {
+      color: darkorange;
+      margin-left: 20px;
+    }
+  }
+}
