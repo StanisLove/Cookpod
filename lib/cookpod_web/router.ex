@@ -21,7 +21,7 @@ defmodule CookpodWeb.Router do
     get "/terms", PageController, :terms
 
     get "/signin", UserSessionController, :new
-    get "/signout", UserSessionController, :delete
+    delete "/signout", UserSessionController, :delete
     resources "/user_sessions", UserSessionController, only: [:create]
   end
 

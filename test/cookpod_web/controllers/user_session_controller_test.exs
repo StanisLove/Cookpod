@@ -25,5 +25,11 @@ defmodule CookpodWeb.UserSessionControllerTest do
       assert html_response(conn, 302) =~ "/"
     end
   end
-end
 
+  describe "DELETE #delete" do
+    test "redirects to root", %{conn: conn} do
+      conn = delete(conn, "/signout")
+      assert html_response(conn, 302) =~ "/"
+    end
+  end
+end
