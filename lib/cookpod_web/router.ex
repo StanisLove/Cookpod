@@ -22,7 +22,7 @@ defmodule CookpodWeb.Router do
 
     get "/signin", UserSessionController, :new
     get "/signout", UserSessionController, :delete
-    resources "/user_sessions", UserSessionController, only: [:delete]
+    resources "/user_sessions", UserSessionController, only: [:create]
   end
 
   # Other scopes may use custom stacks.
