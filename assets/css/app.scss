@@ -3,6 +3,7 @@
 @import "custom";
 @import "~bootstrap/scss/bootstrap";
 
+/* Header */
 header {
   background-color: purple;
   height: 85px;
@@ -52,5 +53,21 @@ header {
       color: darkorange;
       margin-left: 20px;
     }
+  }
+}
+
+/* Form */
+.signin {
+  background-color: lightgrey;
+  height: auto;
+  margin-top: 50px;
+
+  h1 {
+    text-align: center;
+    color: white;
+  }
+
+  label {
+    color: white;
   }
 }
