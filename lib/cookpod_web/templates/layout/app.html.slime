@@ -20,8 +20,15 @@ html lang="en"
           = new_locale(@conn, :en, "En")
           span |
           = new_locale(@conn, :ru, "Ru")
-        a.align-self-center href="#{Routes.user_session_path(@conn, :new)}"
-          i.fas.fa-sign-in-alt.sign-in
+        = if current_user(@conn) do
+          = form_for :user, Routes.user_session_path(@conn, :delete),
+            [method: :delete, id: "signout", class: "align-self-center"], fn _ ->
+            i.fas.fa-sign-out-alt.sign-in onclick="document.getElementById('signout').submit();"
+          h6.align-self-center.username= current_user(@conn).login
+        - else
+          a.align-self-center href="#{Routes.user_session_path(@conn, :new)}"
+            i.fas.fa-sign-in-alt.sign-in
+          h6.align-self-center.username
 
     main.container role="main"
       = unless is_nil(get_flash(@conn, :info)) do

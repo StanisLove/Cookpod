@@ -52,6 +52,13 @@ header {
     .sign-in {
       color: darkorange;
       margin-left: 20px;
+      cursor: pointer;
+    }
+
+    h6.username {
+      color: darkorange;
+      margin-left: 15px;
+      margin-bottom: 3px;
     }
   }
 }

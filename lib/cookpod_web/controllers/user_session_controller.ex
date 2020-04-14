@@ -10,7 +10,7 @@ defmodule CookpodWeb.UserSessionController do
       {:ok, login} ->
         conn
         |> put_flash(:info, gettext("Welcome back!"))
-        |> put_session(:current_user, login)
+        |> put_session(:current_user, %{login: login})
         |> configure_session(renew: true)
         |> redirect(to: "/")
 
