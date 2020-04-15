@@ -2,7 +2,15 @@ defmodule CookpodWeb.UserSessionController do
   use CookpodWeb, :controller
 
   def new(conn, _params) do
-    render(conn, :new)
+    case get_session(conn, :current_user) do
+      nil ->
+        render(conn, :new)
+
+      _ ->
+        conn
+        |> put_flash(:error, gettext("Already signed in"))
+        |> redirect(to: "/")
+    end
   end
 
   def create(conn, %{"user" => %{"login" => login, "password" => password}}) do
