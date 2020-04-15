@@ -19,10 +19,22 @@ defmodule CookpodWeb.PageControllerTest do
     test "be success for authorized user", %{conn: conn} do
       conn =
         conn
-        |> init_test_session(current_user: true)
+        |> init_test_session(current_user: %{login: "login"})
         |> get("/terms")
 
       assert html_response(conn, 200)
+    end
+  end
+
+  describe "GET #not_existed_route" do
+    test "responds with 404 page", %{conn: conn} do
+      response =
+        assert_error_sent :not_found, fn ->
+          get(conn, "/not_existed_route")
+        end
+
+      assert {404, [_h | _t], html} = response
+      assert html =~ "Page not found"
     end
   end
 end

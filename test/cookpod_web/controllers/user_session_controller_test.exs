@@ -1,8 +1,6 @@
 defmodule CookpodWeb.UserSessionControllerTest do
   use CookpodWeb.ConnCase
 
-  import Plug.Test
-
   describe "GET #new" do
     test "be success", %{conn: conn} do
       conn = get(conn, "/signin")

@@ -1,0 +1,11 @@
+.container
+  .row
+  .row
+    .col-sm
+    .col-sm.error
+      h1 404
+      p= gettext "Page not found"
+      a.align-self-center.btn.btn-primary href="/"
+        = gettext "Try again"
+    .col-sm
+

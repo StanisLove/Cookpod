@@ -1,5 +1,8 @@
 defmodule CookpodWeb.Router do
   use CookpodWeb, :router
+  use Plug.ErrorHandler
+
+  import CookpodWeb.Gettext
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -24,6 +27,26 @@ defmodule CookpodWeb.Router do
     delete "/signout", UserSessionController, :delete
     resources "/user_sessions", UserSessionController, only: [:create]
   end
+
+  def handle_errors(conn, %{kind: :error, reason: %Phoenix.Router.NoRouteError{}}) do
+    conn
+    |> fetch_session()
+    |> fetch_flash()
+    |> put_layout({CookpodWeb.LayoutView, :app})
+    |> put_view(CookpodWeb.ErrorView)
+    |> render("404.html")
+  end
+
+  def handle_errors(conn, %{kind: :error, reason: %Phoenix.ActionClauseError{}}) do
+    conn
+    |> fetch_session()
+    |> fetch_flash()
+    |> put_flash(:error, gettext("Not authorized"))
+    |> redirect(to: "/")
+  end
+
+  # TODO: Send error to Sentry
+  def handle_errors(conn, _), do: conn
 
   # Other scopes may use custom stacks.
   # scope "/api", CookpodWeb do
