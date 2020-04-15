@@ -24,7 +24,7 @@ defmodule CookpodWeb.UserSessionControllerTest do
     end
 
     test "redirects to root when ActionClauseError", %{conn: conn} do
-      r = assert_error_sent 302, fn ->
+      assert_error_sent 302, fn ->
         conn = post(conn, "/user_sessions", %{})
         assert redirected_to(conn, 302) =~ "/"
       end
