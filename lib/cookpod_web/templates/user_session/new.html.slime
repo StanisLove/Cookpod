@@ -13,6 +13,8 @@
           = label(form, :password, "Password")
           = text_input(form, :password, class: "form-control", type: "password")
 
-        .form-group
-          = submit("Submit", class: "btn btn-primary")
+        .form-group.d-flex
+          = submit("Submit", class: "btn btn-primary align-self-center")
+          a.registration.align-self-center.ml-auto href="#{Routes.user_path(@conn, :new)}"
+            = gettext "Registration"
     .col-sm

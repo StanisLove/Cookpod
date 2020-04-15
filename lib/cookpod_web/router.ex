@@ -27,6 +27,8 @@ defmodule CookpodWeb.Router do
     get "/signin", UserSessionController, :new
     delete "/signout", UserSessionController, :delete
     resources "/user_sessions", UserSessionController, only: [:create]
+
+    resources "/users", UserController, only: [:new, :create]
   end
 
   def handle_errors(conn, %{kind: :error, reason: %Phoenix.Router.NoRouteError{}}) do
