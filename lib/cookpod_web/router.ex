@@ -5,6 +5,7 @@ defmodule CookpodWeb.Router do
   import CookpodWeb.Gettext
 
   pipeline :browser do
+    plug BasicAuth, use_config: {:cookpod, :basic_auth}
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
