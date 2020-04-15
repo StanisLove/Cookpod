@@ -20,7 +20,14 @@ defmodule CookpodWeb.UserSessionControllerTest do
 
     test "redirects to root with valid credentials", %{conn: conn} do
       conn = post_form(conn, 'qwerty')
-      assert html_response(conn, 302) =~ "/"
+      assert redirected_to(conn, 302) =~ "/"
+    end
+
+    test "redirects to root when ActionClauseError", %{conn: conn} do
+      r = assert_error_sent 302, fn ->
+        conn = post(conn, "/user_sessions", %{})
+        assert redirected_to(conn, 302) =~ "/"
+      end
     end
   end
 

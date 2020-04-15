@@ -39,9 +39,10 @@ defmodule CookpodWeb.Router do
 
   def handle_errors(conn, %{kind: :error, reason: %Phoenix.ActionClauseError{}}) do
     conn
+    |> put_status(302)
     |> fetch_session()
     |> fetch_flash()
-    |> put_flash(:error, gettext("Not authorized"))
+    |> put_flash(:error, gettext("Bad request"))
     |> redirect(to: "/")
   end
 
