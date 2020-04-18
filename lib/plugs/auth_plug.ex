@@ -14,13 +14,17 @@ defmodule CookpodWeb.Plugs.AuthPlug do
   def call(conn, _opts) do
     case get_session(conn, :current_user) do
       nil ->
-        conn
-        |> put_flash(:error, gettext("You need to sign in before continuing."))
-        |> redirect(to: Helpers.user_session_path(conn, :new))
-        |> halt()
+        redirect_to_sign_in(conn)
 
       _ ->
         conn
     end
+  end
+
+  defp redirect_to_sign_in(conn) do
+    conn
+    |> put_flash(:error, gettext("You need to sign in before continuing."))
+    |> redirect(to: Helpers.user_session_path(conn, :new))
+    |> halt()
   end
 end
