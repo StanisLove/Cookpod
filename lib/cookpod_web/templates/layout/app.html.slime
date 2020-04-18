@@ -10,13 +10,25 @@ html lang="en"
 
   body
     header
-      section.container
-        br
-        a.phx-logo href="http://phoenixframework.org/"
-          img src="#{ Routes.static_path(@conn, "/images/phoenix.png") }" alt="Phoenix Framework Logo"
-        = new_locale(@conn, :en, "En")
-        span |
-        = new_locale(@conn, :ru, "Ru")
+      section.container.d-flex
+        .logo
+          img src="#{ Routes.static_path(@conn, "/images/burger.png") }" alt="Cookpod App"
+        h1.align-self-center Cookpod App
+        a.align-self-center href="#{Routes.page_path(@conn, :terms)}"
+          = gettext "Terms of use"
+        .locale-switcher.align-self-center.ml-auto
+          = new_locale(@conn, :en, "En")
+          span |
+          = new_locale(@conn, :ru, "Ru")
+        = if current_user(@conn) do
+          = form_for :user, Routes.user_session_path(@conn, :delete),
+            [method: :delete, id: "signout", class: "align-self-center"], fn _ ->
+            i.fas.fa-sign-out-alt.sign-in onclick="document.getElementById('signout').submit();"
+          h6.align-self-center.username= current_user(@conn).login
+        - else
+          a.align-self-center href="#{Routes.user_session_path(@conn, :new)}"
+            i.fas.fa-sign-in-alt.sign-in
+          h6.align-self-center.username
 
     main.container role="main"
       = unless is_nil(get_flash(@conn, :info)) do

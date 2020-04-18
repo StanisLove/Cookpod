@@ -20,6 +20,13 @@ config :cookpod, CookpodWeb.Endpoint,
 
 config :cookpod, CookpodWeb.Gettext, default_locale: "ru", locales: ~w(en ru)
 
+config :cookpod,
+  basic_auth: [
+    username: "admin",
+    password: "qwerty",
+    realm: "Admin Area"
+  ]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

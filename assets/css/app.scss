@@ -2,3 +2,79 @@
 
 @import "custom";
 @import "~bootstrap/scss/bootstrap";
+
+/* Header */
+header {
+  background-color: purple;
+  height: 85px;
+
+  a {
+    color: darkorange;
+  }
+
+  a:hover {
+    color: white;
+  }
+
+  section {
+    height: inherit;
+
+    .logo {
+      height: inherit;
+      display: inline-block;
+
+      img {
+        max-height: 95%;
+        height: auto;
+        width: auto;
+      }
+    }
+
+    h1 {
+      display: inline-block;
+      margin: 0 20px;
+      font-size: 3rem;
+      color: white;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .locale-switcher {
+      a, span {
+        margin: 0 2px;
+      }
+
+      span {
+        color: darkorange;
+      }
+    }
+
+    .sign-in {
+      color: darkorange;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+
+    h6.username {
+      color: darkorange;
+      margin-left: 15px;
+      margin-bottom: 3px;
+    }
+  }
+}
+
+/* Form */
+.signin {
+  background-color: lightgrey;
+  height: auto;
+  margin-top: 50px;
+
+  h1 {
+    text-align: center;
+    color: white;
+  }
+
+  label {
+    color: white;
+  }
+}

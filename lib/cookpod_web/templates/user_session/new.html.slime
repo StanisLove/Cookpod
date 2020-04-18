@@ -1,0 +1,18 @@
+.container
+  .row
+  .row
+    .col-sm
+    .col-sm.signin
+      h1 Sign in
+      = form_for :user, Routes.user_session_path(@conn, :create), [method: :post], fn form ->
+        .form-group
+          = label(form, :login, "Login")
+          = text_input(form, :login, class: "form-control")
+
+        .form-group
+          = label(form, :password, "Password")
+          = text_input(form, :password, class: "form-control", type: "password")
+
+        .form-group
+          = submit("Submit", class: "btn btn-primary")
+    .col-sm
