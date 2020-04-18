@@ -13,6 +13,7 @@ defmodule Cookpod.User do
     field :surname, :string
     field :password_hash, :string
     field :password, :string, virtual: true
+    field :password_confirmation, :string, virtual: true
 
     timestamps()
   end
@@ -39,7 +40,7 @@ defmodule Cookpod.User do
   def new_changeset, do: changeset(%User{}, %{})
 
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
-    change(changeset, password_hash: add_hash(password))
+    change(changeset, password_hash: Bcrypt.hash_pwd_salt(password))
   end
 
   defp put_pass_hash(changeset), do: changeset
