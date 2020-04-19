@@ -4,8 +4,10 @@ defmodule Cookpod.User do
   use Ecto.Schema
   import Ecto.Changeset
   import CookpodWeb.Gettext
+  import Bcrypt, only: [hash_pwd_salt: 1, verify_pass: 2]
 
   alias __MODULE__
+  alias Cookpod.Repo
 
   schema "users" do
     field :email, :string
@@ -16,6 +18,16 @@ defmodule Cookpod.User do
     field :password_confirmation, :string, virtual: true
 
     timestamps()
+  end
+
+  def get_by_login_and_pass(login, password) do
+    case Repo.get_by(User, email: login) do
+      nil ->
+        nil
+
+      user ->
+        if verify_pass(password, user.password_hash), do: user, else: nil
+    end
   end
 
   @doc false

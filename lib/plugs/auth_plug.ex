@@ -7,16 +7,30 @@ defmodule CookpodWeb.Plugs.AuthPlug do
   import Phoenix.Controller
   import CookpodWeb.Gettext
 
+  alias Cookpod.Repo
+  alias Cookpod.User
   alias CookpodWeb.Router.Helpers
 
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    case get_session(conn, :current_user) do
-      nil -> redirect_to_sign_in(conn)
-      _ -> conn
-    end
+    auth_from_session(conn, get_session(conn, :user_id))
   end
+
+  defp auth_from_session(conn, nil), do: redirect_to_sign_in(conn)
+
+  defp auth_from_session(conn, user_id) do
+    user = Repo.get(User, user_id)
+    auth_user(conn, user)
+  end
+
+  defp auth_user(conn, nil) do
+    conn
+    |> delete_session(:user_id)
+    |> redirect_to_sign_in
+  end
+
+  defp auth_user(conn, user), do: assign(conn, :current_user, user)
 
   defp redirect_to_sign_in(conn) do
     conn

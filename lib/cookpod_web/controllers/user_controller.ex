@@ -1,6 +1,7 @@
 defmodule CookpodWeb.UserController do
   use CookpodWeb, :controller
 
+  alias Cookpod.Repo
   alias Cookpod.User
 
   plug :scrub_params, "user" when action in [:create]
@@ -13,11 +14,10 @@ defmodule CookpodWeb.UserController do
     changeset = %User{} |> User.registration_changeset(user_params)
 
     case Repo.insert(changeset) do
-      {:ok, user} ->
+      {:ok, _user} ->
         conn
-        |> assign(:current_user, user)
         |> put_flash(:info, gettext("Welcome aboard!"))
-        |> redirect(to: Routes.user_session_path(conn, :new))
+        |> redirect(to: "/")
 
       {:error, changeset} ->
         render(conn, :new, changeset: changeset)
