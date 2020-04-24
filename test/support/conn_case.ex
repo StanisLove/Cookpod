@@ -15,6 +15,8 @@ defmodule CookpodWeb.ConnCase do
   this option is not recommended for other databases.
   """
 
+  import Plug.Conn
+
   alias Ecto.Adapters.SQL.Sandbox
 
   use ExUnit.CaseTemplate
@@ -24,6 +26,11 @@ defmodule CookpodWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       alias CookpodWeb.Router.Helpers, as: Routes
+      import Plug.Test
+
+      use CookpodWeb.BasicAuthCase
+
+      import Cookpod.Factory
 
       # The default endpoint for testing
       @endpoint CookpodWeb.Endpoint
@@ -37,6 +44,15 @@ defmodule CookpodWeb.ConnCase do
       Sandbox.mode(Cookpod.Repo, {:shared, self()})
     end
 
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    conn = Phoenix.ConnTest.build_conn() |> use_basic_auth()
+
+    {:ok, conn: conn}
+  end
+
+  defp use_basic_auth(conn) do
+    username = Application.get_env(:cookpod, :basic_auth)[:username]
+    password = Application.get_env(:cookpod, :basic_auth)[:password]
+    header_content = "Basic " <> Base.encode64("#{username}:#{password}")
+    conn |> put_req_header("authorization", header_content)
   end
 end

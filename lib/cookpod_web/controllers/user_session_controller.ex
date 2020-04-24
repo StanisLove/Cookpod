@@ -4,7 +4,7 @@ defmodule CookpodWeb.UserSessionController do
   alias Cookpod.User
 
   def new(conn, _params) do
-    case get_session(conn, :current_user) do
+    case get_session(conn, :user_id) do
       nil ->
         render(conn, :new)
 
@@ -44,6 +44,4 @@ defmodule CookpodWeb.UserSessionController do
       user -> {:ok, user}
     end
   end
-
-  defp authenticate(_, _), do: {:error, :unauthorized}
 end

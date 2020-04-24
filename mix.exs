@@ -49,7 +49,8 @@ defmodule Cookpod.MixProject do
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:phoenix_slime, "~> 0.13.1"},
       {:basic_auth, "~> 2.2.2"},
-      {:bcrypt_elixir, "~> 2.2.0"}
+      {:bcrypt_elixir, "~> 2.2.0"},
+      {:ex_machina, "~> 2.4", only: :test}
     ]
   end
 

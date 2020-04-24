@@ -52,7 +52,7 @@ defmodule Cookpod.User do
   def new_changeset, do: changeset(%User{}, %{})
 
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
-    change(changeset, password_hash: Bcrypt.hash_pwd_salt(password))
+    change(changeset, password_hash: hash_pwd_salt(password))
   end
 
   defp put_pass_hash(changeset), do: changeset
