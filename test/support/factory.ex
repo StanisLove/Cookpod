@@ -9,7 +9,7 @@ defmodule Cookpod.Factory do
   def user_factory do
     %User{
       name: "Jane Smith",
-      email: sequence(:email, &"email-#{&1}@example.com")
+      email: sequence(:email, &"email-#{&1}@exampl.com")
     }
   end
 

@@ -1,11 +1,20 @@
 defmodule Cookpod.UserTest do
   use Cookpod.DataCase
 
+  import Mock
+
+  alias Cookpod.EmailKit
   alias Cookpod.User
   alias Ecto.Changeset
 
-  @valid_attrs %{email: "test@example.com", name: "Valdimir", surname: "Lenin"}
+  @valid_attrs %{email: "test@exampl.com", name: "Valdimir", surname: "Lenin"}
   @reg_attrs Map.merge(@valid_attrs, %{password: "qwerty", password_confirmation: "qwerty"})
+
+  setup_with_mocks([
+    {EmailKit, [], [available?: fn _ -> true end]}
+  ], assigns) do
+    assigns
+  end
 
   describe "#changeset" do
     test "with valid attributes" do
@@ -32,6 +41,13 @@ defmodule Cookpod.UserTest do
       changeset = User.changeset(%User{}, %{@valid_attrs | email: "TEST@EXAMPLE.COM"})
       assert changeset.valid?
       assert Changeset.get_field(changeset, :email) == "test@example.com"
+    end
+
+    test "with is not available email" do
+      with_mock EmailKit, [available?: fn _ -> false end] do
+        changeset = User.changeset(%User{}, @valid_attrs)
+        refute changeset.valid?
+      end
     end
   end
 

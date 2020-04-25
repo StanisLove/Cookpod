@@ -28,7 +28,12 @@ defmodule CookpodWeb.ConnCase do
       alias CookpodWeb.Router.Helpers, as: Routes
       import Plug.Test
 
-      use CookpodWeb.BasicAuthCase
+      alias Cookpod.Repo
+      import Ecto
+      import Ecto.Query, only: [from: 2]
+      import Plug.Conn
+
+      defp count(query), do: Repo.count(query)
 
       import Cookpod.Factory
 

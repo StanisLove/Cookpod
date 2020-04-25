@@ -7,6 +7,7 @@ defmodule Cookpod.User do
   import Bcrypt, only: [hash_pwd_salt: 1, verify_pass: 2]
 
   alias __MODULE__
+  alias Cookpod.EmailKit
   alias Cookpod.Repo
 
   schema "users" do
@@ -37,7 +38,20 @@ defmodule Cookpod.User do
     |> update_change(:email, &String.downcase/1)
     |> validate_required([:email])
     |> unique_constraint(:email)
+    |> validate_availability(:email)
   end
+
+  def validate_availability(changeset, field) do
+    validate_change(changeset, field, fn _, value ->
+      if EmailKit.available?(value) do
+        []
+      else
+        [{field, gettext("Email is not available")}]
+      end
+    end)
+  end
+
+  def new_changeset, do: changeset(%User{}, %{})
 
   def registration_changeset(user, attrs) do
     user
@@ -48,8 +62,6 @@ defmodule Cookpod.User do
     |> validate_confirmation(:password, message: gettext("doesn't match"))
     |> put_pass_hash
   end
-
-  def new_changeset, do: changeset(%User{}, %{})
 
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
     change(changeset, password_hash: hash_pwd_salt(password))

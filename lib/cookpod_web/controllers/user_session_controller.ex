@@ -3,8 +3,6 @@ defmodule CookpodWeb.UserSessionController do
 
   alias Cookpod.User
 
-  plug :scrub_params, "user" when action in [:create]
-
   def new(conn, _params) do
     case get_session(conn, :user_id) do
       nil ->
