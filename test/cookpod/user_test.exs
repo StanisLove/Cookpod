@@ -10,9 +10,12 @@ defmodule Cookpod.UserTest do
   @valid_attrs %{email: "test@exampl.com", name: "Valdimir", surname: "Lenin"}
   @reg_attrs Map.merge(@valid_attrs, %{password: "qwerty", password_confirmation: "qwerty"})
 
-  setup_with_mocks([
-    {EmailKit, [], [available?: fn _ -> true end]}
-  ], assigns) do
+  setup_with_mocks(
+    [
+      {EmailKit, [], [available?: fn _ -> true end]}
+    ],
+    assigns
+  ) do
     assigns
   end
 
@@ -44,7 +47,7 @@ defmodule Cookpod.UserTest do
     end
 
     test "with is not available email" do
-      with_mock EmailKit, [available?: fn _ -> false end] do
+      with_mock EmailKit, available?: fn _ -> false end do
         changeset = User.changeset(%User{}, @valid_attrs)
         refute changeset.valid?
       end
