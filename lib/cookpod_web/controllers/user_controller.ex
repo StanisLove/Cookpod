@@ -5,7 +5,7 @@ defmodule CookpodWeb.UserController do
   alias Cookpod.User
 
   def new(conn, _params) do
-    case get_session(conn, :user_id) do
+    case current_user(conn) do
       nil ->
         render(conn, :new, changeset: User.new_changeset())
 

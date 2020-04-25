@@ -14,7 +14,7 @@ defmodule CookpodWeb.UserControllerTest do
     test "redirects to root when signed in", %{conn: conn} do
       conn =
         conn
-        |> init_test_session(user_id: 1)
+        |> init_test_session(user_id: insert(:user).id)
         |> get("/signin")
 
       assert redirected_to(conn, 302) == "/"

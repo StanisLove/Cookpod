@@ -9,7 +9,7 @@ defmodule CookpodWeb.UserSessionControllerTest do
     test "redirects to root when signed in", %{conn: conn} do
       conn =
         conn
-        |> init_test_session(user_id: 1)
+        |> init_test_session(user_id: insert(:user).id)
         |> get("/signin")
 
       assert redirected_to(conn, 302) == "/"
@@ -44,12 +44,7 @@ defmodule CookpodWeb.UserSessionControllerTest do
 
   describe "DELETE #delete" do
     test "redirects to root", %{conn: conn} do
-      conn =
-        conn
-        |> init_test_session(user_id: 1)
-        |> delete("/signout")
-
-      assert redirected_to(conn, 302) == "/"
+      assert conn |> delete("/signout") |> redirected_to(302) == "/"
     end
   end
 end

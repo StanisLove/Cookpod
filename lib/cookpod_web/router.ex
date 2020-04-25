@@ -11,7 +11,12 @@ defmodule CookpodWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug CookpodWeb.Plugs.AuthPlug
     plug CookpodWeb.Plugs.SetLocale
+  end
+
+  pipeline :protected do
+    plug :redirect_unauthorized
   end
 
   pipeline :api do
@@ -19,10 +24,15 @@ defmodule CookpodWeb.Router do
   end
 
   scope "/", CookpodWeb do
+    pipe_through [:browser, :protected]
+
+    get "/terms", PageController, :terms
+  end
+
+  scope "/", CookpodWeb do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/terms", PageController, :terms
 
     get "/signin", UserSessionController, :new
     delete "/signout", UserSessionController, :delete
@@ -30,6 +40,17 @@ defmodule CookpodWeb.Router do
 
     get "/signup", UserController, :new
     resources "/users", UserController, only: [:create]
+  end
+
+  def redirect_unauthorized(conn, _opts) do
+    if conn.assigns[:current_user] do
+      conn
+    else
+      conn
+      |> put_flash(:error, gettext("You need to sign in before continuing."))
+      |> redirect(to: __MODULE__.Helpers.user_session_path(conn, :new))
+      |> halt()
+    end
   end
 
   def handle_errors(conn, %{kind: :error, reason: %Phoenix.Router.NoRouteError{}}) do
