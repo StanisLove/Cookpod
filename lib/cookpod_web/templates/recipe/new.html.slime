@@ -1,0 +1,9 @@
+.container
+  .row
+    h1 New Recipe
+
+  .row
+    = render "form.html", Map.put(assigns, :action, Routes.recipe_path(@conn, :create))
+
+  .row
+    span= link "Back", to: Routes.recipe_path(@conn, :index)
