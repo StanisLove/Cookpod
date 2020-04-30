@@ -1,34 +1,21 @@
 defmodule CookpodWeb.PageControllerTest do
   use CookpodWeb.ConnCase
-  use CookpodWeb.BasicAuthCase
-  import Plug.Test
 
   describe "GET #index" do
     test "be success", %{conn: conn} do
-      conn =
-        conn
-        |> using_basic_auth()
-        |> get("/")
-
-      assert html_response(conn, 200) =~ "Phoenix!"
+      assert conn |> get("/") |> html_response(200) =~ "Phoenix!"
     end
   end
 
   describe "GET #terms" do
     test "redirects unauthorized user", %{conn: conn} do
-      conn =
-        conn
-        |> using_basic_auth()
-        |> get("/terms")
-
-      assert redirected_to(conn, 302) =~ "/signin"
+      assert conn |> get("/terms") |> redirected_to(302) == "/signin"
     end
 
     test "be success for authorized user", %{conn: conn} do
       conn =
         conn
-        |> using_basic_auth()
-        |> init_test_session(current_user: %{login: "login"})
+        |> init_test_session(user_id: insert(:user).id)
         |> get("/terms")
 
       assert html_response(conn, 200)
@@ -40,7 +27,6 @@ defmodule CookpodWeb.PageControllerTest do
       response =
         assert_error_sent :not_found, fn ->
           conn
-          |> using_basic_auth()
           |> get("/not_existed_route")
         end
 

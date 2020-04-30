@@ -1,8 +1,10 @@
 defmodule CookpodWeb.UserSessionController do
   use CookpodWeb, :controller
 
+  alias Cookpod.User
+
   def new(conn, _params) do
-    case get_session(conn, :current_user) do
+    case current_user(conn) do
       nil ->
         render(conn, :new)
 
@@ -15,10 +17,10 @@ defmodule CookpodWeb.UserSessionController do
 
   def create(conn, %{"user" => %{"login" => login, "password" => password}}) do
     case authenticate(login, password) do
-      {:ok, login} ->
+      {:ok, user} ->
         conn
         |> put_flash(:info, gettext("Welcome back!"))
-        |> put_session(:current_user, %{login: login})
+        |> put_session(:user_id, user.id)
         |> configure_session(renew: true)
         |> redirect(to: "/")
 
@@ -36,6 +38,10 @@ defmodule CookpodWeb.UserSessionController do
     |> redirect(to: "/")
   end
 
-  defp authenticate(login, "qwerty"), do: {:ok, login}
-  defp authenticate(_, _), do: {:error, :unauthorized}
+  defp authenticate(login, password) do
+    case User.get_by_login_and_pass(login, password) do
+      nil -> {:error, :unauthorized}
+      user -> {:ok, user}
+    end
+  end
 end

@@ -1,0 +1,28 @@
+.container
+  .row
+  .row
+    .col-sm
+    .col-sm.signin
+      h1= gettext("Sign up")
+      = form_for @changeset, Routes.user_path(@conn, :create), [method: :post], fn form ->
+        .form-group
+          = label(form, :email, gettext("Email"))
+          = text_input(form, :email, class: "form-control")
+          = error_tag(form, :email)
+
+        .form-group
+          = label(form, :password, gettext("Password"))
+          = text_input(form, :password, class: "form-control", type: "password")
+          = error_tag(form, :password)
+
+        .form-group
+          = label(form, :password_confirmation, gettext("Password confirmation"))
+          = text_input(form, :password_confirmation, class: "form-control", type: "password")
+          = error_tag(form, :password_confirmation)
+
+        .form-group.d-flex
+          = submit("Submit", class: "btn btn-primary")
+          a.registration.align-self-center.ml-auto href="#{Routes.user_session_path(@conn, :new)}"
+            = gettext "Sign in"
+    .col-sm
+

@@ -65,7 +65,7 @@ header {
 
 /* Form */
 .signin {
-  background-color: lightgrey;
+  background-color: grey;
   height: auto;
   margin-top: 50px;
 
@@ -76,5 +76,11 @@ header {
 
   label {
     color: white;
+  }
+
+  a.registration {
+    &:hover {
+      color: white;
+    }
   }
 }
