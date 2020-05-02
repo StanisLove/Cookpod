@@ -6,6 +6,7 @@ defmodule Cookpod.Recipes do
   import Ecto.Query, warn: false
   alias Cookpod.Repo
 
+  alias Cookpod.Recipes.Icon
   alias Cookpod.Recipes.Recipe
 
   @doc """
@@ -50,6 +51,9 @@ defmodule Cookpod.Recipes do
 
   """
   def create_recipe(attrs \\ %{}) do
+    icon = Icon.upload(attrs["icon"])
+    attrs = Map.put(attrs, "icon", icon)
+
     %Recipe{}
     |> Recipe.changeset(attrs)
     |> Repo.insert()
