@@ -3,9 +3,11 @@ defmodule Cookpod.Recipes.Icon do
 
   alias ExAws.S3
 
+  def upload(nil), do: nil
+
   def upload(data) do
     # TODO: name file as md5 from content
-    object = data.filename
+    object = "recipes/#{data.filename}"
     body = data.path |> File.read!()
 
     :cookpod

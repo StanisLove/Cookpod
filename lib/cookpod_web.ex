@@ -50,6 +50,12 @@ defmodule CookpodWeb do
       def current_user(conn) do
         conn.assigns[:current_user]
       end
+
+      def image(conn, nil) do
+        img_tag(Routes.static_path(conn, "/images/no_image.png"), alt: "No image")
+      end
+
+      def image(_conn, img_path), do: img_tag(img_path)
     end
   end
 

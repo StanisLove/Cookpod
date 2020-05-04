@@ -18,4 +18,10 @@ defmodule Cookpod.Recipes.Recipe do
     |> cast(attrs, [:name, :description, :icon])
     |> validate_required([:name])
   end
+
+  def icon_path(%{icon: nil}), do: nil
+
+  def icon_path(%{icon: icon}) do
+    "http://localhost:9000/cookpod/#{icon}"
+  end
 end
