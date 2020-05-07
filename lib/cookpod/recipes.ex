@@ -61,11 +61,7 @@ defmodule Cookpod.Recipes do
     |> Repo.insert()
   end
 
-  def add_icon({:ok, recipe}, attrs) do
-    recipe
-    |> Recipe.add_icon_changeset(attrs)
-    |> Repo.update()
-  end
+  def add_icon({:ok, recipe}, icon), do: update_recipe(recipe, icon)
 
   def add_icon(error, _), do: error
 

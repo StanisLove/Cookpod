@@ -24,9 +24,4 @@ defmodule Cookpod.Recipes.Recipe do
     |> create_changeset(attrs)
     |> cast_attachments(attrs, [:icon])
   end
-
-  def add_icon_changeset(recipe, attrs) do
-    recipe
-    |> cast_attachments(attrs, [:icon])
-  end
 end
