@@ -43,6 +43,7 @@ config :phoenix, :template_engines,
 config :ex_aws,
   access_key_id: "minio_access_key",
   secret_access_key: "minio_secret_key",
+  json_codec: Jason,
   debug_requests: true
 
 config :ex_aws, :s3,
@@ -50,9 +51,10 @@ config :ex_aws, :s3,
   host: "localhost",
   port: 9000
 
-config :arc,
-  asset_host: "http://localhost:9000/cookpod",
-  bucket: "cookpod"
+config :waffle,
+  storage: Waffle.Storage.S3,
+  bucket: "cookpod",
+  asset_host: "http://localhost:9000/cookpod"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

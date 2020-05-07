@@ -2,7 +2,7 @@ defmodule Cookpod.Recipes.Recipe do
   @moduledoc "Recipe schema"
 
   use Ecto.Schema
-  use Arc.Ecto.Schema
+  use Waffle.Ecto.Schema
   import Ecto.Changeset
 
   schema "recipes" do

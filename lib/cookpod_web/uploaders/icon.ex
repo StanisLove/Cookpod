@@ -1,8 +1,8 @@
 defmodule Cookpod.Icon do
   @moduledoc "Uploader for icons"
 
-  use Arc.Definition
-  use Arc.Ecto.Definition
+  use Waffle.Definition
+  use Waffle.Ecto.Definition
 
   @versions [:original, :medium, :thumb]
   @extension_whitelist ~w(.jpg .jpeg .gif .png)

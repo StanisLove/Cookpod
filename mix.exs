@@ -56,8 +56,8 @@ defmodule Cookpod.MixProject do
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
-      {:arc, "~> 0.11.0"},
-      {:arc_ecto, "~> 0.11.3"},
+      {:waffle, "~> 1.0.1"},
+      {:waffle_ecto, "~> 0.0.8"},
       {:inflex, "~> 2.0.0"}
     ]
   end
