@@ -55,7 +55,7 @@ defmodule Cookpod.Recipes do
     create_recipe(rest) |> add_icon(icon)
   end
 
-  def create_recipe(attrs \\ %{}) do
+  def create_recipe(attrs) do
     %Recipe{}
     |> Recipe.create_changeset(attrs)
     |> Repo.insert()
@@ -96,8 +96,15 @@ defmodule Cookpod.Recipes do
 
   """
   def delete_recipe(%Recipe{} = recipe) do
-    Repo.delete(recipe)
+    Repo.delete(recipe) |> flush_icons
   end
+
+  def flush_icons({:ok, recipe}) do
+    Cookpod.Icon.delete({recipe.icon, recipe})
+    {:ok, recipe}
+  end
+
+  def flush_icons(error, _), do: error
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking recipe changes.
