@@ -2,26 +2,31 @@ defmodule Cookpod.Recipes.Recipe do
   @moduledoc "Recipe schema"
 
   use Ecto.Schema
+  use Arc.Ecto.Schema
   import Ecto.Changeset
 
   schema "recipes" do
     field :description, :string
-    field :icon, :string
+    field :icon, Cookpod.Icon.Type
     field :name, :string
 
     timestamps()
   end
 
-  @doc false
-  def changeset(recipe, attrs) do
+  def create_changeset(recipe, attrs) do
     recipe
-    |> cast(attrs, [:name, :description, :icon])
+    |> cast(attrs, [:name, :description])
     |> validate_required([:name])
   end
 
-  def icon_path(%{icon: nil}), do: nil
+  def update_changeset(recipe, attrs) do
+    recipe
+    |> create_changeset(attrs)
+    |> cast_attachments(attrs, [:icon])
+  end
 
-  def icon_path(%{icon: icon}) do
-    "http://localhost:9000/cookpod/#{icon}"
+  def add_icon_changeset(recipe, attrs) do
+    recipe
+    |> cast_attachments(attrs, [:icon])
   end
 end

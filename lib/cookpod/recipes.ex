@@ -6,7 +6,6 @@ defmodule Cookpod.Recipes do
   import Ecto.Query, warn: false
   alias Cookpod.Repo
 
-  alias Cookpod.Recipes.Icon
   alias Cookpod.Recipes.Recipe
 
   @doc """
@@ -50,14 +49,25 @@ defmodule Cookpod.Recipes do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_recipe(attrs \\ %{}) do
-    icon = Icon.upload(attrs["icon"])
-    attrs = Map.put(attrs, "icon", icon)
+  def create_recipe(%{"icon" => %Plug.Upload{}} = attrs) do
+    {icon, rest} = Map.split(attrs, ["icon"])
 
+    create_recipe(rest) |> add_icon(icon)
+  end
+
+  def create_recipe(attrs \\ %{}) do
     %Recipe{}
-    |> Recipe.changeset(attrs)
+    |> Recipe.create_changeset(attrs)
     |> Repo.insert()
   end
+
+  def add_icon({:ok, recipe}, attrs) do
+    recipe
+    |> Recipe.add_icon_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def add_icon(error, _), do: error
 
   @doc """
   Updates a recipe.
@@ -73,7 +83,7 @@ defmodule Cookpod.Recipes do
   """
   def update_recipe(%Recipe{} = recipe, attrs) do
     recipe
-    |> Recipe.changeset(attrs)
+    |> Recipe.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -103,6 +113,6 @@ defmodule Cookpod.Recipes do
 
   """
   def change_recipe(%Recipe{} = recipe) do
-    Recipe.changeset(recipe, %{})
+    Recipe.create_changeset(recipe, %{})
   end
 end
