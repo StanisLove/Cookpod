@@ -99,6 +99,8 @@ defmodule Cookpod.Recipes do
     Repo.delete(recipe) |> flush_icons
   end
 
+  def flush_icons({:ok, %Recipe{icon: nil} = recipe}), do: {:ok, recipe}
+
   def flush_icons({:ok, recipe}) do
     Cookpod.Icon.delete({recipe.icon, recipe})
     {:ok, recipe}

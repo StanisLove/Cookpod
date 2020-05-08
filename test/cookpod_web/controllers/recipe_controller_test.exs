@@ -1,7 +1,8 @@
 defmodule CookpodWeb.RecipeControllerTest do
   use CookpodWeb.ConnCase
-
   alias Cookpod.Recipes
+
+  @moduletag :auth
 
   @create_attrs %{description: "some description", icon: "some icon", name: "some name"}
   @update_attrs %{
@@ -9,7 +10,7 @@ defmodule CookpodWeb.RecipeControllerTest do
     icon: "some updated icon",
     name: "some updated name"
   }
-  @invalid_attrs %{description: nil, icon: nil, name: nil}
+  @invalid_attrs %{name: nil}
 
   def fixture(:recipe) do
     {:ok, recipe} = Recipes.create_recipe(@create_attrs)
