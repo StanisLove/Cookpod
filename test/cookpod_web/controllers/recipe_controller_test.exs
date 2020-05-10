@@ -7,7 +7,7 @@ defmodule CookpodWeb.RecipeControllerTest do
   @create_attrs %{description: "some description", name: "some name"}
   @update_attrs %{description: "some updated description", name: "some updated name"}
   @invalid_attrs %{name: nil}
-  @upload %Plug.Upload{path: "test/fixtures/burger.png", filename: "burger.png"}
+  @upload %Plug.Upload{path: "test/fixtures/elixir.jpeg", filename: "elixir.jpeg"}
 
   def fixture(:recipe) do
     {:ok, recipe} = Recipes.create_recipe(@create_attrs)
@@ -29,12 +29,12 @@ defmodule CookpodWeb.RecipeControllerTest do
   end
 
   describe "create recipe" do
-    def create_recipe(conn, attrs) do
+    def post_recipe(conn, attrs) do
       post(conn, Routes.recipe_path(conn, :create), recipe: attrs)
     end
 
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = create_recipe(conn, @create_attrs)
+      conn = post_recipe(conn, @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.recipe_path(conn, :show, id)
@@ -44,15 +44,18 @@ defmodule CookpodWeb.RecipeControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = create_recipe(conn, @invalid_attrs)
+      conn = post_recipe(conn, @invalid_attrs)
       assert html_response(conn, 200) =~ "New Recipe"
     end
 
     test "upload image", %{conn: conn} do
-      conn = create_recipe(conn, Map.merge(@create_attrs, %{icon: @upload}))
+      conn = post_recipe(conn, Map.merge(@create_attrs, %{icon: @upload}))
       %{id: id} = redirected_params(conn)
-      # require IEx
-      # IEx.pry()
+      recipe = Recipes.get_recipe!(id)
+      thumb = Cookpod.Icon.local_path({recipe.icon, recipe}, :thumb)
+      medium = Cookpod.Icon.local_path({recipe.icon, recipe}, :medium)
+
+      assert File.exists?(thumb) && File.exists?(medium)
     end
   end
 
@@ -80,18 +83,42 @@ defmodule CookpodWeb.RecipeControllerTest do
       conn = put(conn, Routes.recipe_path(conn, :update, recipe), recipe: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Recipe"
     end
+
+    test "upload image", %{conn: conn, recipe: recipe} do
+      assert is_nil(recipe.icon)
+
+      put(conn, Routes.recipe_path(conn, :update, recipe), recipe: %{icon: @upload})
+      # reload
+      recipe = Recipes.get_recipe!(recipe.id)
+      thumb = Cookpod.Icon.local_path({recipe.icon, recipe}, :thumb)
+      medium = Cookpod.Icon.local_path({recipe.icon, recipe}, :medium)
+
+      assert File.exists?(thumb) && File.exists?(medium)
+    end
   end
 
   describe "delete recipe" do
-    setup [:create_recipe]
-
-    test "deletes chosen recipe", %{conn: conn, recipe: recipe} do
+    test "deletes chosen recipe", %{conn: conn} do
+      recipe = fixture(:recipe)
       conn = delete(conn, Routes.recipe_path(conn, :delete, recipe))
       assert redirected_to(conn) == Routes.recipe_path(conn, :index)
 
       assert_error_sent 404, fn ->
         get(conn, Routes.recipe_path(conn, :show, recipe))
       end
+    end
+
+    test "deletes uploaded files", %{conn: conn} do
+      attrs = Map.merge(@create_attrs, %{icon: @upload})
+      {:ok, recipe} = Recipes.create_recipe(attrs)
+      thumb = Cookpod.Icon.local_path({recipe.icon, recipe}, :thumb)
+      medium = Cookpod.Icon.local_path({recipe.icon, recipe}, :medium)
+
+      assert File.exists?(thumb) && File.exists?(medium)
+
+      delete(conn, Routes.recipe_path(conn, :delete, recipe))
+
+      refute File.exists?(thumb) || File.exists?(medium)
     end
   end
 

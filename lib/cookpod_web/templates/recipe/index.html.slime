@@ -4,7 +4,7 @@ table.recipes
   tbody
     = for recipe <- @recipes do
       tr
-        td= img_tag Cookpod.Icon.url({recipe.icon, recipe}, :thumb)
+        td= img_tag icon_url(:thumb, recipe)
         td= recipe.name
         td= recipe.description
         td class="text-right"

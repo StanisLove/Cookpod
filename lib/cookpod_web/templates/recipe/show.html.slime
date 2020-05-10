@@ -9,7 +9,7 @@ ul
     = @recipe.description
   li
     strong Icon:&nbsp;
-    = Cookpod.Icon.url({@recipe.icon, @recipe}, :medium)
+    = img_tag icon_url(:medium, @recipe)
 
 span= link "Edit", to: Routes.recipe_path(@conn, :edit, @recipe)
 span= link "Back", to: Routes.recipe_path(@conn, :index)

@@ -47,16 +47,21 @@ defmodule Cookpod.Icon do
 
   # Override the storage directory:
   def storage_dir(_version, {_file, scope}) do
-    # TODO: check test config and create path to tmp
-    prefix =
+    module_name =
       scope.__struct__
       |> Module.split()
       |> List.last()
       |> String.downcase()
       |> Inflex.pluralize()
 
-    "#{prefix}/#{scope.id}"
+    "#{module_name}/#{scope.id}"
+    # config_dir = Application.get_env(:waffle, :storage_dir)
+    # storage_dir_path(config_dir, module_name, scope.id)
   end
+
+  # defp storage_dir_path(nil, module_name, id), do: "#{module_name}/#{id}"
+
+  # defp storage_dir_path(prefix, module_name, id), do: "#{prefix}/#{module_name}/#{id}"
 
   # Provide a default URL if there hasn't been a file uploaded
   def default_url(_version, _scope), do: "/images/no_image.png"
@@ -69,4 +74,8 @@ defmodule Cookpod.Icon do
   # def s3_object_headers(version, {file, scope}) do
   #   [content_type: MIME.from_path(file.file_name)]
   # end
+
+  def local_path({file, scope}, size) do
+    Path.join([storage_dir_prefix, url({file, scope}, size, signed: true)])
+  end
 end

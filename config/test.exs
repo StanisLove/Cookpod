@@ -22,4 +22,4 @@ config :bcrypt_elixir, log_rounds: 4
 
 config :waffle,
   storage: Waffle.Storage.Local,
-  storage_dir: "tmp/test/files/"
+  storage_dir_prefix: "tmp/test/files"

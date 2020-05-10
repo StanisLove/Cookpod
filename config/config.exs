@@ -51,11 +51,6 @@ config :ex_aws, :s3,
   host: "localhost",
   port: 9000
 
-config :waffle,
-  storage: Waffle.Storage.S3,
-  bucket: "cookpod",
-  asset_host: "http://localhost:9000/cookpod"
-
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

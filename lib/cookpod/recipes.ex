@@ -49,21 +49,36 @@ defmodule Cookpod.Recipes do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_recipe(%{"icon" => %Plug.Upload{}} = attrs) do
-    {icon, rest} = Map.split(attrs, ["icon"])
-
-    create_recipe(rest) |> add_icon(icon)
-  end
-
   def create_recipe(attrs) do
     %Recipe{}
     |> Recipe.create_changeset(attrs)
     |> Repo.insert()
+    |> add_icon(attrs["icon"] || attrs[:icon])
   end
 
-  def add_icon({:ok, recipe}, icon), do: update_recipe(recipe, icon)
+  def add_icon(result, nil), do: result
 
-  def add_icon(error, _), do: error
+  def add_icon({:error, changeset}, _), do: {:error, changeset}
+
+  def add_icon({:ok, recipe}, icon), do: update_recipe(recipe, %{icon: icon})
+
+  # def create_recipe(%{icon: %Plug.Upload{}} = attrs), do: create_recipe(attrs)
+
+  # def create_recipe(%{"icon" => %Plug.Upload{}} = attrs) do
+  #   {icon, rest} = Map.split(attrs, ["icon"])
+
+  #   create_recipe(rest) |> add_icon(icon)
+  # end
+
+  # def create_recipe(attrs) do
+  #   %Recipe{}
+  #   |> Recipe.create_changeset(attrs)
+  #   |> Repo.insert()
+  # end
+
+  # def add_icon({:ok, recipe}, icon), do: update_recipe(recipe, icon)
+
+  # def add_icon(error, _), do: error
 
   @doc """
   Updates a recipe.
