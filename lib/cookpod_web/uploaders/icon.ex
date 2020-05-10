@@ -47,6 +47,7 @@ defmodule Cookpod.Icon do
 
   # Override the storage directory:
   def storage_dir(_version, {_file, scope}) do
+    # TODO: check test config and create path to tmp
     prefix =
       scope.__struct__
       |> Module.split()

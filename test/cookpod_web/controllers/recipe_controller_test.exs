@@ -4,13 +4,10 @@ defmodule CookpodWeb.RecipeControllerTest do
 
   @moduletag :auth
 
-  @create_attrs %{description: "some description", icon: "some icon", name: "some name"}
-  @update_attrs %{
-    description: "some updated description",
-    icon: "some updated icon",
-    name: "some updated name"
-  }
+  @create_attrs %{description: "some description", name: "some name"}
+  @update_attrs %{description: "some updated description", name: "some updated name"}
   @invalid_attrs %{name: nil}
+  @upload %Plug.Upload{path: "test/fixtures/burger.png", filename: "burger.png"}
 
   def fixture(:recipe) do
     {:ok, recipe} = Recipes.create_recipe(@create_attrs)
@@ -32,8 +29,12 @@ defmodule CookpodWeb.RecipeControllerTest do
   end
 
   describe "create recipe" do
+    def create_recipe(conn, attrs) do
+      post(conn, Routes.recipe_path(conn, :create), recipe: attrs)
+    end
+
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.recipe_path(conn, :create), recipe: @create_attrs)
+      conn = create_recipe(conn, @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.recipe_path(conn, :show, id)
@@ -43,8 +44,15 @@ defmodule CookpodWeb.RecipeControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.recipe_path(conn, :create), recipe: @invalid_attrs)
+      conn = create_recipe(conn, @invalid_attrs)
       assert html_response(conn, 200) =~ "New Recipe"
+    end
+
+    test "upload image", %{conn: conn} do
+      conn = create_recipe(conn, Map.merge(@create_attrs, %{icon: @upload}))
+      %{id: id} = redirected_params(conn)
+      # require IEx
+      # IEx.pry()
     end
   end
 
