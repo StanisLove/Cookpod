@@ -1,5 +1,6 @@
 defmodule CookpodWeb.RecipeControllerTest do
   use CookpodWeb.ConnCase
+  use Cookpod.TmpCleaner
   alias Cookpod.Recipes
 
   @moduletag :auth

@@ -76,6 +76,6 @@ defmodule Cookpod.Icon do
   # end
 
   def local_path({file, scope}, size) do
-    Path.join([storage_dir_prefix, url({file, scope}, size, signed: true)])
+    Path.join([storage_dir_prefix(), url({file, scope}, size, signed: true)])
   end
 end
