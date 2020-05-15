@@ -11,5 +11,12 @@ ul
     strong Icon:&nbsp;
     = img_tag icon_url(:medium, @recipe)
 
+
+= if @recipe.status != "published" do
+  = form_for :recipe,
+    Routes.recipe_publish_path(@conn, :publish, @recipe.id),
+    [method: :post], fn _ ->
+      = submit("Publish", class: "btn btn-primary")
+
 span= link "Edit", to: Routes.recipe_path(@conn, :edit, @recipe)
 span= link "Back", to: Routes.recipe_path(@conn, :index)

@@ -135,4 +135,20 @@ defmodule Cookpod.Recipes do
   def change_recipe(%Recipe{} = recipe) do
     Recipe.create_changeset(recipe, %{})
   end
+
+  @doc """
+  Publish recipe.
+
+  ## Examples
+
+    iex> pbulish_recipe(recipe)
+    {:ok, %Recipe{}}
+
+    iex> publish_recipe(recipe)
+    {:error, %Ecto.Changeset{}}
+  """
+  def publish_recipe(%Recipe{} = recipe) do
+    IO.puts("Published!")
+    {:ok, recipe}
+  end
 end

@@ -58,7 +58,9 @@ defmodule Cookpod.MixProject do
       {:sweet_xml, "~> 0.6"},
       {:waffle, "~> 1.0.1"},
       {:waffle_ecto, "~> 0.0.8"},
-      {:inflex, "~> 2.0.0"}
+      {:inflex, "~> 2.0.0"},
+      {:fsm, "~> 0.3.1"},
+      {:ecto_enum, "~> 1.4"}
     ]
   end
 

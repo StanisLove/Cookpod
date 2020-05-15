@@ -18,7 +18,7 @@ defmodule CookpodWeb.RecipeController do
     case Recipes.create_recipe(recipe_params) do
       {:ok, recipe} ->
         conn
-        |> put_flash(:info, "Recipe created successfully.")
+        |> put_flash(:info, gettext("Recipe created successfully."))
         |> redirect(to: Routes.recipe_path(conn, :show, recipe))
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -43,7 +43,21 @@ defmodule CookpodWeb.RecipeController do
     case Recipes.update_recipe(recipe, recipe_params) do
       {:ok, recipe} ->
         conn
-        |> put_flash(:info, "Recipe updated successfully.")
+        |> put_flash(:info, gettext("Recipe updated successfully."))
+        |> redirect(to: Routes.recipe_path(conn, :show, recipe))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, :show, recipe: recipe, changeset: changeset)
+    end
+  end
+
+  def publish(conn, %{"recipe_id" => id}) do
+    recipe = Recipes.get_recipe!(id)
+
+    case Recipes.publish_recipe(recipe) do
+      {:ok, recipe} ->
+        conn
+        |> put_flash(:info, gettext("Recipe published."))
         |> redirect(to: Routes.recipe_path(conn, :show, recipe))
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -56,7 +70,7 @@ defmodule CookpodWeb.RecipeController do
     {:ok, _recipe} = Recipes.delete_recipe(recipe)
 
     conn
-    |> put_flash(:info, "Recipe deleted successfully.")
+    |> put_flash(:info, gettext("Recipe deleted successfully."))
     |> redirect(to: Routes.recipe_path(conn, :index))
   end
 end

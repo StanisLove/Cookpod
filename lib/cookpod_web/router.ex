@@ -28,7 +28,9 @@ defmodule CookpodWeb.Router do
 
     get "/terms", PageController, :terms
 
-    resources "/recipes", RecipeController
+    resources "/recipes", RecipeController do
+      post "/publish", RecipeController, :publish, as: :publish
+    end
   end
 
   scope "/", CookpodWeb do

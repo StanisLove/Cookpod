@@ -9,6 +9,7 @@ defmodule Cookpod.Recipes.Recipe do
     field :description, :string
     field :icon, Cookpod.Icon.Type
     field :name, :string
+    field :status, RecipeSatusEnum
 
     timestamps()
   end
