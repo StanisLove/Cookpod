@@ -148,7 +148,6 @@ defmodule Cookpod.Recipes do
     {:error, %Ecto.Changeset{}}
   """
   def publish_recipe(%Recipe{} = recipe) do
-    IO.puts("Published!")
-    {:ok, recipe}
+    Recipe.publish_changeset(recipe) |> Repo.update()
   end
 end

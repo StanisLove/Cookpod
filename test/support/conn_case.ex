@@ -39,6 +39,8 @@ defmodule CookpodWeb.ConnCase do
 
       import Cookpod.Factory
 
+      use Cookpod.TmpCleaner
+
       # The default endpoint for testing
       @endpoint CookpodWeb.Endpoint
     end

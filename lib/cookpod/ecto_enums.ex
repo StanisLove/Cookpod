@@ -1,2 +1,2 @@
 import EctoEnum
-defenum(RecipeSatusEnum, :status, [:draft, :published])
+defenum(RecipeSatusEnum, :status, [:draft, :published, :archived])

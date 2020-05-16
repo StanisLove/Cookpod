@@ -3,13 +3,15 @@ defmodule Cookpod.Recipes.Recipe do
 
   use Ecto.Schema
   use Waffle.Ecto.Schema
+  import CookpodWeb.Gettext
   import Ecto.Changeset
+  alias Cookpod.Recipes.StatusFsm
 
   schema "recipes" do
     field :description, :string
     field :icon, Cookpod.Icon.Type
     field :name, :string
-    field :status, RecipeSatusEnum
+    field :status, RecipeSatusEnum, default: StatusFsm.new().state
 
     timestamps()
   end
@@ -24,5 +26,29 @@ defmodule Cookpod.Recipes.Recipe do
     recipe
     |> create_changeset(attrs)
     |> cast_attachments(attrs, [:icon])
+  end
+
+  def publish_changeset(recipe) do
+    new_status = StatusFsm.new(state: recipe.status) |> StatusFsm.publish() |> Map.get(:state)
+
+    if new_status == StatusFsm.error_state() do
+      recipe
+      |> change
+      |> add_error(:status, gettext("The recipe can't be published"))
+    else
+      recipe
+      |> change(status: new_status)
+    end
+
+    # case StatusFsm.new(state: recipe.status) |> StatusFsm.publish |> Map.get(:state) do
+    #   StatusFsm.error_state ->
+    #     recipe
+    #     |> change
+    #     |> add_error(:status, gettext "The recipe can't be published")
+
+    #   status ->
+    #     recipe
+    #     |> change(status: status)
+    # end
   end
 end

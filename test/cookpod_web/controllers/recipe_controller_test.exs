@@ -1,6 +1,5 @@
 defmodule CookpodWeb.RecipeControllerTest do
   use CookpodWeb.ConnCase
-  use Cookpod.TmpCleaner
   alias Cookpod.Recipes
 
   @moduletag :auth
@@ -10,9 +9,8 @@ defmodule CookpodWeb.RecipeControllerTest do
   @invalid_attrs %{name: nil}
   @upload %Plug.Upload{path: "test/fixtures/elixir.jpeg", filename: "elixir.jpeg"}
 
-  def fixture(:recipe) do
-    {:ok, recipe} = Recipes.create_recipe(@create_attrs)
-    recipe
+  defp create_recipe(_) do
+    {:ok, recipe: insert(:recipe, @create_attrs)}
   end
 
   describe "index" do
@@ -100,7 +98,7 @@ defmodule CookpodWeb.RecipeControllerTest do
 
   describe "delete recipe" do
     test "deletes chosen recipe", %{conn: conn} do
-      recipe = fixture(:recipe)
+      recipe = insert(:recipe)
       conn = delete(conn, Routes.recipe_path(conn, :delete, recipe))
       assert redirected_to(conn) == Routes.recipe_path(conn, :index)
 
@@ -121,10 +119,5 @@ defmodule CookpodWeb.RecipeControllerTest do
 
       refute File.exists?(thumb) || File.exists?(medium)
     end
-  end
-
-  defp create_recipe(_) do
-    recipe = fixture(:recipe)
-    {:ok, recipe: recipe}
   end
 end
