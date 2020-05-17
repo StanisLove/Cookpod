@@ -47,7 +47,7 @@ defmodule CookpodWeb.RecipeController do
         |> redirect(to: Routes.recipe_path(conn, :show, recipe))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :show, recipe: recipe, changeset: changeset)
+        render(conn, "edit.html", recipe: recipe, changeset: changeset)
     end
   end
 
@@ -61,7 +61,7 @@ defmodule CookpodWeb.RecipeController do
         |> redirect(to: Routes.recipe_path(conn, :show, recipe))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", recipe: recipe, changeset: changeset)
+        render(conn, :show, recipe: recipe, changeset: changeset)
     end
   end
 

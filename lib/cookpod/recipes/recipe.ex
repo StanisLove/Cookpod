@@ -39,16 +39,5 @@ defmodule Cookpod.Recipes.Recipe do
       recipe
       |> change(status: new_status)
     end
-
-    # case StatusFsm.new(state: recipe.status) |> StatusFsm.publish |> Map.get(:state) do
-    #   StatusFsm.error_state ->
-    #     recipe
-    #     |> change
-    #     |> add_error(:status, gettext "The recipe can't be published")
-
-    #   status ->
-    #     recipe
-    #     |> change(status: status)
-    # end
   end
 end

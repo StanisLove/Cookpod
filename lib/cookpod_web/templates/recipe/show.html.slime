@@ -10,11 +10,14 @@ ul
   li
     strong Icon:&nbsp;
     = img_tag icon_url(:medium, @recipe)
+  li
+    strong Status:&nbsp;
+    = @recipe.description
 
 
-= if @recipe.status != "published" do
+= if @recipe.status != :published do
   = form_for :recipe,
-    Routes.recipe_publish_path(@conn, :publish, @recipe.id),
+    Routes.recipe_publish_path(@conn, :publish, @recipe),
     [method: :post], fn _ ->
       = submit("Publish", class: "btn btn-primary")
 

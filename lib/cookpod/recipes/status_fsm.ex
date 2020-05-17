@@ -12,5 +12,5 @@ defmodule Cookpod.Recipes.StatusFsm do
     defevent(archive, do: next_state(:archived))
   end
 
-  defevent(_, do: next_state(error_state))
+  defevent(_, do: next_state(error_state()))
 end

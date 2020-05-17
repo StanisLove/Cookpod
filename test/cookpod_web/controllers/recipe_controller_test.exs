@@ -120,4 +120,14 @@ defmodule CookpodWeb.RecipeControllerTest do
       refute File.exists?(thumb) || File.exists?(medium)
     end
   end
+
+  describe "publish recipe" do
+    setup [:create_recipe]
+
+    test "publishes chosen recipe", %{conn: conn, recipe: recipe} do
+      conn = post(conn, Routes.recipe_publish_path(conn, :publish, recipe))
+      assert %{id: id} = redirected_params(conn)
+      assert redirected_to(conn) == Routes.recipe_path(conn, :show, id)
+    end
+  end
 end
