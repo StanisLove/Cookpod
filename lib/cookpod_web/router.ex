@@ -46,6 +46,12 @@ defmodule CookpodWeb.Router do
     resources "/users", UserController, only: [:create]
   end
 
+  scope "/api/v1", CookpodWeb.Api, as: :api do
+    pipe_through :api
+
+    resources "/recipes", RecipeController, only: [:index, :show]
+  end
+
   def redirect_unauthorized(conn, _opts) do
     if conn.assigns[:current_user] do
       conn
@@ -77,9 +83,4 @@ defmodule CookpodWeb.Router do
 
   # TODO: Send error to Sentry
   def handle_errors(conn, _), do: conn
-
-  # Other scopes may use custom stacks.
-  # scope "/api", CookpodWeb do
-  #   pipe_through :api
-  # end
 end
