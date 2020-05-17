@@ -55,13 +55,7 @@ defmodule Cookpod.Icon do
       |> Inflex.pluralize()
 
     "#{module_name}/#{scope.id}"
-    # config_dir = Application.get_env(:waffle, :storage_dir)
-    # storage_dir_path(config_dir, module_name, scope.id)
   end
-
-  # defp storage_dir_path(nil, module_name, id), do: "#{module_name}/#{id}"
-
-  # defp storage_dir_path(prefix, module_name, id), do: "#{prefix}/#{module_name}/#{id}"
 
   # Provide a default URL if there hasn't been a file uploaded
   def default_url(_version, _scope), do: "/images/no_image.png"
