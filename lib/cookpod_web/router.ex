@@ -52,6 +52,20 @@ defmodule CookpodWeb.Router do
     resources "/recipes", RecipeController, only: [:index, :show]
   end
 
+  scope "/api/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :cookpod, swagger_file: "swagger.json"
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "1.0",
+        title: "Cookpod API"
+      },
+      basePath: "api/v1"
+    }
+  end
+
   def redirect_unauthorized(conn, _opts) do
     if conn.assigns[:current_user] do
       conn
