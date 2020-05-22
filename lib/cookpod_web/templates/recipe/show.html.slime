@@ -1,0 +1,25 @@
+h1 Show Recipe
+
+ul
+  li
+    strong Name:&nbsp;
+    = @recipe.name
+  li
+    strong Description:&nbsp;
+    = @recipe.description
+  li
+    strong Icon:&nbsp;
+    = img_tag icon_url(:medium, @recipe)
+  li
+    strong Status:&nbsp;
+    = @recipe.description
+
+
+= if @recipe.status != :published do
+  = form_for :recipe,
+    Routes.recipe_publish_path(@conn, :publish, @recipe),
+    [method: :post], fn _ ->
+      = submit("Publish", class: "btn btn-primary")
+
+span= link "Edit", to: Routes.recipe_path(@conn, :edit, @recipe)
+span= link "Back", to: Routes.recipe_path(@conn, :index)

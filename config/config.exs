@@ -40,6 +40,17 @@ config :phoenix, :template_engines,
   slime: PhoenixSlime.Engine,
   slimleex: PhoenixSlime.LiveViewEngine
 
+config :ex_aws,
+  access_key_id: "minio_access_key",
+  secret_access_key: "minio_secret_key",
+  json_codec: Jason,
+  debug_requests: true
+
+config :ex_aws, :s3,
+  scheme: "http://",
+  host: "localhost",
+  port: 9000
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

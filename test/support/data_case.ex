@@ -26,6 +26,9 @@ defmodule Cookpod.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Cookpod.DataCase
+      import Cookpod.Factory
+
+      use Cookpod.TmpCleaner
     end
   end
 

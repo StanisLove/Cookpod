@@ -1,0 +1,15 @@
+h1 Listing Recipes
+
+table.recipes
+  tbody
+    = for recipe <- @recipes do
+      tr
+        td= img_tag icon_url(:thumb, recipe)
+        td= recipe.name
+        td= recipe.description
+        td class="text-right"
+          = link "Show", to: Routes.recipe_path(@conn, :show, recipe)
+          = link "Edit", to: Routes.recipe_path(@conn, :edit, recipe)
+          = link "Delete", to: Routes.recipe_path(@conn, :delete, recipe), method: :delete, data: [confirm: "Are you sure?"]
+
+span= link "New Recipe", to: Routes.recipe_path(@conn, :new)

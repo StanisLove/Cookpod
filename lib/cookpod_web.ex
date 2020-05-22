@@ -50,6 +50,10 @@ defmodule CookpodWeb do
       def current_user(conn) do
         conn.assigns[:current_user]
       end
+
+      def icon_url(size, entity) do
+        Cookpod.Icon.url({entity.icon, entity}, size)
+      end
     end
   end
 

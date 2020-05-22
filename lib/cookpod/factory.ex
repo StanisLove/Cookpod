@@ -4,6 +4,7 @@ defmodule Cookpod.Factory do
   """
   use ExMachina.Ecto, repo: Cookpod.Repo
 
+  alias Cookpod.Recipes.Recipe
   alias Cookpod.User
 
   def user_factory do
@@ -18,5 +19,12 @@ defmodule Cookpod.Factory do
     user
     |> User.registration_changeset(%{"password" => password, "password_confirmation" => password})
     |> Ecto.Changeset.apply_changes()
+  end
+
+  def recipe_factory do
+    %Recipe{
+      name: "Recipe",
+      description: "Desc"
+    }
   end
 end

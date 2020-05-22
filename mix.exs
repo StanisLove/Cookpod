@@ -11,7 +11,7 @@ defmodule Cookpod.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      elixirc_options: [warnings_as_errors: true],
+      elixirc_options: [warnings_as_errors: false],
       test_coverage: [tool: ExCoveralls]
     ]
   end
@@ -51,7 +51,16 @@ defmodule Cookpod.MixProject do
       {:basic_auth, "~> 2.2.2"},
       {:bcrypt_elixir, "~> 2.2.0"},
       {:ex_machina, "~> 2.4"},
-      {:mock, "~> 0.3.0", only: :test}
+      {:mock, "~> 0.3.0", only: :test},
+      {:ex_aws, "~> 2.0"},
+      {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"},
+      {:waffle, "~> 1.0.1"},
+      {:waffle_ecto, "~> 0.0.8"},
+      {:inflex, "~> 2.0.0"},
+      {:fsm, "~> 0.3.1"},
+      {:ecto_enum, "~> 1.4"}
     ]
   end
 

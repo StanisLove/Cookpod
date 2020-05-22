@@ -27,6 +27,7 @@ defmodule CookpodWeb.UserControllerTest do
         params =
           build(:user)
           |> set_password("qwerty")
+          # TODO: try params_for
           |> Map.take([:email, :password, :password_confirmation])
 
         assert from(user in User, where: user.email == ^params[:email]) |> count == 0

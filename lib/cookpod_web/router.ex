@@ -27,6 +27,10 @@ defmodule CookpodWeb.Router do
     pipe_through [:browser, :protected]
 
     get "/terms", PageController, :terms
+
+    resources "/recipes", RecipeController do
+      post "/publish", RecipeController, :publish, as: :publish
+    end
   end
 
   scope "/", CookpodWeb do

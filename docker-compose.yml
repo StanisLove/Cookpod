@@ -11,5 +11,19 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/10.3/data
 
+  s3:
+    container_name: s3
+    image: minio/minio
+    ports:
+      - published: 9000
+        target: 9000
+    environment:
+      MINIO_ACCESS_KEY: minio_access_key
+      MINIO_SECRET_KEY: minio_secret_key
+    volumes:
+      - minio:/data
+    command: server /data
+
 volumes:
   pgdata:
+  minio:

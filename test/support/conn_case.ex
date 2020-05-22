@@ -15,7 +15,9 @@ defmodule CookpodWeb.ConnCase do
   this option is not recommended for other databases.
   """
 
+  import Cookpod.Factory
   import Plug.Conn
+  import Plug.Test
 
   alias Ecto.Adapters.SQL.Sandbox
 
@@ -37,6 +39,8 @@ defmodule CookpodWeb.ConnCase do
 
       import Cookpod.Factory
 
+      use Cookpod.TmpCleaner
+
       # The default endpoint for testing
       @endpoint CookpodWeb.Endpoint
     end
@@ -49,9 +53,17 @@ defmodule CookpodWeb.ConnCase do
       Sandbox.mode(Cookpod.Repo, {:shared, self()})
     end
 
-    conn = Phoenix.ConnTest.build_conn() |> use_basic_auth()
+    conn = Phoenix.ConnTest.build_conn()
 
-    {:ok, conn: conn}
+    {conn, user} =
+      if tags[:auth] do
+        user = insert(:user)
+        {conn |> init_test_session(user_id: user.id), user}
+      else
+        {conn, nil}
+      end
+
+    {:ok, conn: conn |> use_basic_auth, current_user: user}
   end
 
   defp use_basic_auth(conn) do
