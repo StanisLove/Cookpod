@@ -5,10 +5,13 @@ defmodule CookpodWeb.Controllers.Api.RecipeControllerTest do
   describe "index" do
     test "show chosen recipes", %{conn: conn, swagger_schema: schema} do
       insert_pair(:recipe)
-      conn = conn |> get(Routes.api_recipe_path(conn, :index))
 
-      validate_resp_schema(conn, schema, "RecipesResponse")
-      assert json_response(conn, 200)["data"] |> length == 2
+      conn =
+        conn
+        |> get(Routes.api_recipe_path(conn, :index))
+        |> validate_resp_schema(schema, "RecipesResponse")
+
+      assert length(json_response(conn, 200)["data"]) == 2
     end
   end
 
