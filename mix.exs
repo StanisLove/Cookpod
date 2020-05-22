@@ -62,7 +62,8 @@ defmodule Cookpod.MixProject do
       {:fsm, "~> 0.3.1"},
       {:ecto_enum, "~> 1.4"},
       {:phoenix_swagger, "~> 0.8"},
-      {:ex_json_schema, "~> 0.5"}
+      {:ex_json_schema, "~> 0.5"},
+      {:phoenix_integration, "~> 0.8", only: :test}
     ]
   end
 
