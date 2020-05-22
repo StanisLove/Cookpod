@@ -1,8 +1,6 @@
 defmodule CookpodWeb.RecipeControllerTest do
-  use CookpodWeb.ConnCase
+  use CookpodWeb.AuthConnCase
   alias Cookpod.Recipes
-
-  @moduletag :auth
 
   @create_attrs %{description: "some description", name: "some name"}
   @update_attrs %{description: "some updated description", name: "some updated name"}
