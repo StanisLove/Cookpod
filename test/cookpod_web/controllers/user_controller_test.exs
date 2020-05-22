@@ -25,9 +25,7 @@ defmodule CookpodWeb.UserControllerTest do
     test "redirects to root after registration", %{conn: conn} do
       with_mock EmailKit, available?: fn _ -> true end do
         params =
-          build(:user)
-          |> set_password("qwerty")
-          # TODO: try params_for
+          params_for(:user)
           |> Map.take([:email, :password, :password_confirmation])
 
         assert from(user in User, where: user.email == ^params[:email]) |> count == 0
