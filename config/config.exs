@@ -51,6 +51,18 @@ config :ex_aws, :s3,
   host: "localhost",
   port: 9000
 
+config :cookpod, :phoenix_swagger,
+  swagger_files: %{
+    "priv/static/swagger.json" => [
+      # phoenix routes will be converted to swagger paths
+      router: CookpodWeb.Router,
+      # (optional) endpoint config used to set host, port and https schemes.
+      endpoint: CookpodWeb.Endpoint
+    ]
+  }
+
+config :phoenix_swagger, json_library: Jason
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

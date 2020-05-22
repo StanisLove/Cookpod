@@ -46,6 +46,26 @@ defmodule CookpodWeb.Router do
     resources "/users", UserController, only: [:create]
   end
 
+  scope "/api/v1", CookpodWeb.Api, as: :api do
+    pipe_through :api
+
+    resources "/recipes", RecipeController, only: [:index, :show]
+  end
+
+  scope "/api/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :cookpod, swagger_file: "swagger.json"
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "1.0",
+        title: "Cookpod API"
+      },
+      basePath: "api/v1"
+    }
+  end
+
   def redirect_unauthorized(conn, _opts) do
     if conn.assigns[:current_user] do
       conn
@@ -77,9 +97,4 @@ defmodule CookpodWeb.Router do
 
   # TODO: Send error to Sentry
   def handle_errors(conn, _), do: conn
-
-  # Other scopes may use custom stacks.
-  # scope "/api", CookpodWeb do
-  #   pipe_through :api
-  # end
 end
