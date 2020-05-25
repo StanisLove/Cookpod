@@ -1,9 +1,7 @@
 defmodule CookpodWeb.UserControllerTest do
   use CookpodWeb.ConnCase
+  use Cookpod.Mocks.EmailKit
 
-  import Mock
-
-  alias Cookpod.EmailKit
   alias Cookpod.User
 
   describe "GET #new" do
@@ -23,15 +21,11 @@ defmodule CookpodWeb.UserControllerTest do
 
   describe "POST #create" do
     test "redirects to root after registration", %{conn: conn} do
-      with_mock EmailKit, available?: fn _ -> true end do
-        params =
-          params_for(:user)
-          |> Map.take([:email, :password, :password_confirmation])
+      params = params_for(:user) |> Map.take([:email, :password, :password_confirmation])
 
-        assert from(user in User, where: user.email == ^params[:email]) |> count == 0
-        assert conn |> post("/users", %{"user" => params}) |> redirected_to(302) == "/"
-        assert from(user in User, where: user.email == ^params[:email]) |> count == 1
-      end
+      assert from(user in User, where: user.email == ^params[:email]) |> count == 0
+      assert conn |> post("/users", %{"user" => params}) |> redirected_to(302) == "/"
+      assert from(user in User, where: user.email == ^params[:email]) |> count == 1
     end
   end
 end

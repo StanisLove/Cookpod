@@ -5,7 +5,7 @@ defmodule CookpodWeb.IntegrationCase do
 
   using do
     quote do
-      use MyApp.ConnCase
+      use CookpodWeb.ConnCase
       use PhoenixIntegration
     end
   end
