@@ -18,7 +18,6 @@ defmodule CookpodWeb.ConnCase do
   import Cookpod.Factory
   import Plug.Conn
   import Plug.Test
-  import Mock
 
   alias Ecto.Adapters.SQL.Sandbox
 
