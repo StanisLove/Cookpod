@@ -27,7 +27,7 @@ defmodule Cookpod.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:test), do: ["lib", "test/support", "test/mocks"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
@@ -62,7 +62,8 @@ defmodule Cookpod.MixProject do
       {:fsm, "~> 0.3.1"},
       {:ecto_enum, "~> 1.4"},
       {:phoenix_swagger, "~> 0.8"},
-      {:ex_json_schema, "~> 0.5"}
+      {:ex_json_schema, "~> 0.5"},
+      {:phoenix_integration, "~> 0.8", only: :test}
     ]
   end
 

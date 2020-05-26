@@ -13,6 +13,7 @@ defmodule Cookpod.Factory do
       surname: "Smith",
       email: sequence(:email, &"email-#{&1}@exampl.com")
     }
+    |> set_password("qwerty")
   end
 
   def set_password(user, password) do

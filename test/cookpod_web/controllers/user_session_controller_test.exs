@@ -23,13 +23,13 @@ defmodule CookpodWeb.UserSessionControllerTest do
     end
 
     test "redirects to signin with invalid password", %{conn: conn} do
-      user = build(:user) |> set_password("qwerty") |> insert()
+      user = insert(:user)
       conn = post_form(conn, user.email, "invalid")
       assert redirected_to(conn, 302) == "/signin"
     end
 
     test "redirects to root with valid credentials", %{conn: conn} do
-      user = build(:user) |> set_password("qwerty") |> insert()
+      user = insert(:user)
       conn = post_form(conn, user.email, "qwerty")
       assert redirected_to(conn, 302) == "/"
     end

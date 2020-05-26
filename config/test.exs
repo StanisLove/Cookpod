@@ -23,3 +23,6 @@ config :bcrypt_elixir, log_rounds: 4
 config :waffle,
   storage: Waffle.Storage.Local,
   storage_dir_prefix: "tmp/test/files"
+
+config :phoenix_integration,
+  endpoint: CookpodWeb.Endpoint
