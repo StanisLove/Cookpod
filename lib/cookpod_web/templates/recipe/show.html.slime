@@ -27,6 +27,11 @@ span= link "Back", to: Routes.recipe_path(@conn, :index)
 ul.list-group.mt-5#messages
 
 form.input-group.mt-3#new-message
-  input type="text" class="form-control" placeholder="What do you think about <%= @recipe.name  %>" id="message-content"
+  input type="text" class="form-control" placeholder="What do you think about #{@recipe.name}" id="message-content"
   .input-group-append
     button.btn.btn-outline-success type="submit" Send
+
+script
+  | window.channelLocation = 'recipe';
+  | window.channelId = #{@recipe.id};
+

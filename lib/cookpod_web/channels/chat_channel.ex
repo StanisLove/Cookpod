@@ -5,10 +5,12 @@ defmodule CookpodWeb.ChatChannel do
 
   require Logger
 
-  def join("chat:lobby", payload, socket) do
-    # {:ok, socket}
+  def join("chat:" <> suffix, payload, socket) do
+    [location, id] = String.split(suffix, ":")
+
     if authorized?(payload) do
-      {:ok, socket}
+      {:ok, %{channel: "chat:#{location}:#{id}"},
+       Phoenix.Socket.assign(socket, location: location, id: id)}
     else
       {:error, %{reason: "unauthorized"}}
     end
@@ -28,13 +30,9 @@ defmodule CookpodWeb.ChatChannel do
   end
 
   def handle_in("message:add", %{"message" => content}, socket) do
-    broadcast!(socket, "chat:lobby:new_message", %{content: content})
+    %{location: location, id: id} = socket.assigns
+    broadcast!(socket, "chat:#{location}:#{id}", %{content: content})
     {:reply, :ok, socket}
-  end
-
-  def handle_in(any, payload, socket) do
-    Logger.debug("Message from client: " <> inspect(any))
-    {:noreply, socket}
   end
 
   # Add authorization logic here as required.
