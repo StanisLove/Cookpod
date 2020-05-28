@@ -2,7 +2,7 @@ defmodule CookpodWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", CookpodWeb.RoomChannel
+  channel "chat:*", CookpodWeb.ChatChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
