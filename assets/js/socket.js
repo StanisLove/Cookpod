@@ -55,31 +55,40 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let topic = `chat:${window.channelLocation}:${window.channelId}`
-let channel = socket.channel(topic, {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+let channelLocation = window.channelLocation;
+let cheannelId = window.channelId;
 
-document.querySelector("#new-message").addEventListener('submit', (e) => {
-  e.preventDefault()
-  let messageInput = e.target.querySelector('#message-content')
+if (channelLocation && channelId) {
+  let topic = `chat:${channelLocation}:${channelId}`
+  let channel = socket.channel(topic, {})
 
-  channel.push('message:add', { message: messageInput.value })
+  channel.join()
+    .receive("ok", resp => { console.log("Joined successfully", resp) })
+    .receive("error", resp => { console.log("Unable to join", resp) })
 
-  messageInput.value = ""
-});
+  document.querySelector("#new-message").addEventListener('submit', (e) => {
+    e.preventDefault()
+    let messageInput = e.target.querySelector('#message-content')
 
-channel.on("chat:lobby:new_message", (message) => {
-  console.log("message", message)
-  renderMessage(message)
-});
+    channel.push('message:add', { message: messageInput.value })
 
-const renderMessage = function(message) {
-  let messageTemplate = `
-    <li class="list-group-item">${message.content}</li>
-  `
-  document.querySelector("#messages").innerHTML += messageTemplate
-};
+    messageInput.value = ""
+  });
+
+  channel.on(`chat:${channelLocation}:${channelId}:new_message`, (message) => {
+    console.log("message", message)
+    renderMessage(message)
+  });
+
+  const renderMessage = function(message) {
+    let messageTemplate = `
+      <li class="list-group-item">
+        <strong>${message.user.name}</strong>
+        ${message.content}
+      </li>
+    `
+    document.querySelector("#messages").innerHTML += messageTemplate
+  };
+}
 
 export default socket

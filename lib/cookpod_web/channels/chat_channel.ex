@@ -3,7 +3,7 @@ defmodule CookpodWeb.ChatChannel do
 
   use CookpodWeb, :channel
 
-  require Logger
+  alias Cookpod.{Repo, User}
 
   def join("chat:" <> suffix, payload, socket) do
     [location, id] = String.split(suffix, ":")
@@ -31,7 +31,9 @@ defmodule CookpodWeb.ChatChannel do
 
   def handle_in("message:add", %{"message" => content}, socket) do
     %{location: location, id: id} = socket.assigns
-    broadcast!(socket, "chat:#{location}:#{id}", %{content: content})
+    user = Repo.get(User, socket.assigns[:user_id])
+    message = %{content: content, user: %{name: user.name || user.email}}
+    broadcast!(socket, "chat:#{location}:#{id}:new_message", message)
     {:reply, :ok, socket}
   end
 

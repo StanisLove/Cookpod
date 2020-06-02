@@ -25,5 +25,11 @@ defmodule CookpodWeb.Plugs.AuthPlug do
     conn |> delete_session(:user_id)
   end
 
-  defp auth_user(conn, user), do: assign(conn, :current_user, user)
+  defp auth_user(conn, user) do
+    token = Phoenix.Token.sign(conn, "user token", user.id)
+
+    conn
+    |> assign(:current_user, user)
+    |> assign(:user_token, token)
+  end
 end
