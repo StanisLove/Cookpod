@@ -4,16 +4,46 @@ defmodule CookpodWeb.ChatChannel do
   use CookpodWeb, :channel
 
   alias Cookpod.{Repo, User}
+  alias CookpodWeb.Presence
 
   def join("chat:" <> suffix, payload, socket) do
     [location, id] = String.split(suffix, ":")
 
     if authorized?(payload) do
+      send(self(), :after_join)
+
       {:ok, %{channel: "chat:#{location}:#{id}"},
        Phoenix.Socket.assign(socket, location: location, id: id)}
     else
       {:error, %{reason: "unauthorized"}}
     end
+  end
+
+  def handle_info(:after_join, socket) do
+    push(socket, "presence_state", Presence.list(socket))
+
+    user = Repo.get(User, socket.assigns[:user_id])
+
+    {:ok, _} =
+      Presence.track(socket, "user:#{user.id}", %{
+        user_id: user.id,
+        username: user.name || user.email
+      })
+
+    {:noreply, socket}
+  end
+
+  def handle_in("user:typing", %{"typing" => typing}, socket) do
+    user = Repo.get(User, socket.assigns[:user_id])
+
+    {:ok, _} =
+      Presence.update(socket, "user:#{user.id}", %{
+        typing: typing,
+        user_id: user.id,
+        username: user.name || user.email
+      })
+
+    {:reply, :ok, socket}
   end
 
   # Channels can be used in a request/response fashion
