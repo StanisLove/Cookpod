@@ -35,7 +35,7 @@ defmodule Cookpod.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.16"},
+      {:phoenix, "~> 1.4.17"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},
@@ -63,7 +63,9 @@ defmodule Cookpod.MixProject do
       {:ecto_enum, "~> 1.4"},
       {:phoenix_swagger, "~> 0.8"},
       {:ex_json_schema, "~> 0.5"},
-      {:phoenix_integration, "~> 0.8", only: :test}
+      {:phoenix_integration, "~> 0.8", only: :test},
+      {:phoenix_live_view, "~> 0.13.2"},
+      {:floki, ">= 0.0.0", only: :test}
     ]
   end
 
