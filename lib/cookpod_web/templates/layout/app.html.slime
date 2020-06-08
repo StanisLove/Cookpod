@@ -39,6 +39,7 @@ html lang="en"
         p.alert.alert-danger role="alert"= get_flash(@conn, :error)
       = render @view_module, @view_template, assigns
 
+    = csrf_meta_tag()
     script
       | window.userToken = "#{assigns[:user_token]}"
     script type="text/javascript" src="#{Routes.static_path(@conn, "/js/app.js")}"
