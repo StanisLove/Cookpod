@@ -1,7 +1,4 @@
-= form_for @changeset, @action, [multipart: true], fn f ->
-  = if @changeset.action do
-    .alert.alert-danger
-      p Oops, something went wrong! Please check the errors below.
+= form_for @changeset, @action, [phx_change: :validate, phx_submit: :save, csrf_token: @csrf_token, multipart: :true], fn f ->
   .form-group
     = label f, :name, class: "control-label"
     = text_input f, :name, class: "form-control"
@@ -15,4 +12,4 @@
     = file_input f, :icon, class: "form-control-file"
     = error_tag f, :icon
   .form-group.d-flex
-    = submit "Submit", class: "btn btn-primary"
+    = submit "Submit", class: "btn btn-primary", phx_disable_with: "Saving..."
