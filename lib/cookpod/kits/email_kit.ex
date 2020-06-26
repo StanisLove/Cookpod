@@ -6,14 +6,14 @@ defmodule Cookpod.EmailKit do
 
   ## Examples
 
-    iex> Cookpod.EmailKit.available?("test@gmail.com")
-    true
+    iex> Cookpod.EmailKit.available?("random string")
+    false
 
     iex> Cookpod.EmailKit.available?("test@im.sure.it.is.not.com")
     false
 
-    iex> Cookpod.EmailKit.available?("random string")
-    false
+    iex> Cookpod.EmailKit.available?("test@gmail.com")
+    true
   """
   @spec available?(String.t()) :: boolean()
   def available?(email) do

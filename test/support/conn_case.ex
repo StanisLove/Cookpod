@@ -58,7 +58,7 @@ defmodule CookpodWeb.ConnCase do
     {conn, user} =
       if tags[:auth] do
         user = insert(:user)
-        {conn |> init_test_session(user_id: user.id), user}
+        {conn |> init_test_session(user_id: user.id, csrf_token: "123"), user}
       else
         {conn, nil}
       end

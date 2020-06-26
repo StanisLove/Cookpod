@@ -1,10 +1,13 @@
 defmodule CookpodWeb.ChatChannelTest do
   use CookpodWeb.ChannelCase
+  import Cookpod.Factory
 
   setup do
+    user = insert(:user)
+
     {:ok, _, socket} =
-      socket(CookpodWeb.UserSocket, "user_id", %{some: :assign})
-      |> subscribe_and_join(CookpodWeb.ChatChannel, "chat:lobby")
+      socket(CookpodWeb.UserSocket, "socket_id", %{user_id: user.id})
+      |> subscribe_and_join(CookpodWeb.ChatChannel, "chat:lobby:2")
 
     {:ok, socket: socket}
   end
