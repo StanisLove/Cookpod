@@ -6,7 +6,7 @@
 //
 // Pass the token on params as below. Or remove it
 // from the params if you are not using authentication.
-import {Socket} from "phoenix"
+import {Socket, Presence} from "phoenix"
 
 let socket = new Socket("/socket", {params: {token: window.userToken}})
 
@@ -55,9 +55,99 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+const typingTimeout = 2000;
+var typingTimer;
+let userTyping = false;
+
+let channelLocation = window.channelLocation;
+let cheannelId = window.channelId;
+
+if (channelLocation && channelId) {
+  let topic = `chat:${channelLocation}:${channelId}`
+  let channel = socket.channel(topic, {})
+  let presences = {};
+
+  channel.join()
+    .receive("ok", resp => { console.log("Joined successfully", resp) })
+    .receive("error", resp => { console.log("Unable to join", resp) })
+
+  document.querySelector("#new-message").addEventListener('submit', (e) => {
+    e.preventDefault()
+    let messageInput = e.target.querySelector('#message-content')
+
+    channel.push('message:add', { message: messageInput.value })
+
+    messageInput.value = ""
+  });
+
+  channel.on(`chat:${channelLocation}:${channelId}:new_message`, (message) => {
+    console.log("message", message)
+    renderMessage(message)
+  });
+
+  channel.on("presence_state", state => {
+    presences = Presence.syncState(presences, state)
+    renderOnlineUsers(presences)
+  });
+
+  channel.on("presence_diff", diff => {
+    presences = Presence.syncDiff(presences, diff)
+    renderOnlineUsers(presences)
+  });
+
+  const renderMessage = function(message) {
+    let messageTemplate = `
+      <li class="list-group-item">
+        <strong>${message.user.name}</strong>
+        ${message.content}
+      </li>
+    `
+    document.querySelector("#messages").innerHTML += messageTemplate
+  };
+
+  const renderOnlineUsers = function(presences) {
+    let onlineUsers = Presence.list(presences, (_id, {metas: [user, ...rest]}) => {
+      return onlineUserTemplate(user);
+    }).join("")
+
+    document.querySelector("#online-users").innerHTML = onlineUsers;
+  }
+
+  const onlineUserTemplate = function(user) {
+    var typingIndicator = ''
+    if (user.typing) {
+      typingIndicator = ' <i> typing...</i>'
+    }
+
+    return `
+    <div id="online-user-${user.user_id}">
+      <strong class="text-secondary">${user.username}</strong> ${typingIndicator}
+    </div>
+  `
+  }
+
+  document.querySelector("#message-content").addEventListener('keydown', () => {
+    userStartsTyping()
+    clearTimeout(typingTimer);
+  })
+
+  document.querySelector("#message-content").addEventListener('keyup', () => {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(userStopsTyping, typingTimeout);
+  })
+
+  const userStartsTyping = function() {
+    if (userTyping) { return }
+
+    userTyping = true
+    channel.push('user:typing', { typing: true })
+  }
+
+  const userStopsTyping = function() {
+    clearTimeout(typingTimer);
+    userTyping = false
+    channel.push('user:typing', { typing: false })
+  }
+}
 
 export default socket

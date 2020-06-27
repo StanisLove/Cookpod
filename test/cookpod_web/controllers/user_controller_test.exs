@@ -1,8 +1,14 @@
 defmodule CookpodWeb.UserControllerTest do
   use CookpodWeb.ConnCase
-  use Cookpod.Mocks.EmailKit
+
+  import Mox
 
   alias Cookpod.User
+
+  setup do
+    stub(EmailKitMock, :available?, fn _ -> true end)
+    :ok
+  end
 
   describe "GET #new" do
     test "be success", %{conn: conn} do

@@ -8,7 +8,7 @@ defmodule CookpodWeb.Router do
     plug BasicAuth, use_config: {:cookpod, :basic_auth}
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug CookpodWeb.Plugs.AuthPlug

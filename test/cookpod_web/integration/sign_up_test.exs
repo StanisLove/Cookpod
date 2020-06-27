@@ -1,10 +1,12 @@
 defmodule CookpodWeb.Integration.SignUpTest do
   use CookpodWeb.IntegrationCase, async: true
-  use Cookpod.Mocks.EmailKit
+
+  import Mox
 
   alias Cookpod.{Repo, User}
 
   setup do
+    stub(EmailKitMock, :available?, fn _ -> true end)
     {:ok, user: build(:user)}
   end
 

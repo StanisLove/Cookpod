@@ -27,7 +27,7 @@ defmodule Cookpod.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support", "test/mocks"]
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
@@ -35,7 +35,7 @@ defmodule Cookpod.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.16"},
+      {:phoenix, "~> 1.4.17"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},
@@ -51,7 +51,7 @@ defmodule Cookpod.MixProject do
       {:basic_auth, "~> 2.2.2"},
       {:bcrypt_elixir, "~> 2.2.0"},
       {:ex_machina, "~> 2.4"},
-      {:mock, "~> 0.3.0", only: :test},
+      {:mox, "~> 0.5", only: :test},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.9"},
@@ -63,7 +63,9 @@ defmodule Cookpod.MixProject do
       {:ecto_enum, "~> 1.4"},
       {:phoenix_swagger, "~> 0.8"},
       {:ex_json_schema, "~> 0.5"},
-      {:phoenix_integration, "~> 0.8", only: :test}
+      {:phoenix_integration, "~> 0.8", only: :test},
+      {:phoenix_live_view, "~> 0.13.2"},
+      {:floki, ">= 0.0.0", only: :test}
     ]
   end
 

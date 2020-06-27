@@ -26,3 +26,5 @@ config :waffle,
 
 config :phoenix_integration,
   endpoint: CookpodWeb.Endpoint
+
+config :cookpod, :email_kit, EmailKitMock
