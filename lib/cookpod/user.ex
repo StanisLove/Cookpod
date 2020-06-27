@@ -7,7 +7,6 @@ defmodule Cookpod.User do
   import Bcrypt, only: [hash_pwd_salt: 1, verify_pass: 2]
 
   alias __MODULE__
-  alias Cookpod.EmailKit
   alias Cookpod.Repo
 
   schema "users" do
@@ -20,6 +19,8 @@ defmodule Cookpod.User do
 
     timestamps()
   end
+
+  def email_kit, do: Application.get_env(:cookpod, :email_kit)
 
   def get_by_login_and_pass(login, password) do
     case Repo.get_by(User, email: login) do
@@ -43,7 +44,7 @@ defmodule Cookpod.User do
 
   def validate_availability(changeset, field) do
     validate_change(changeset, field, fn _, value ->
-      if EmailKit.available?(value) do
+      if email_kit().available?(value) do
         []
       else
         [{field, gettext("Email is not available")}]

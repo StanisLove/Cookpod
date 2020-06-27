@@ -27,7 +27,7 @@ defmodule Cookpod.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support", "test/mocks"]
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
@@ -51,7 +51,7 @@ defmodule Cookpod.MixProject do
       {:basic_auth, "~> 2.2.2"},
       {:bcrypt_elixir, "~> 2.2.0"},
       {:ex_machina, "~> 2.4"},
-      {:mock, "~> 0.3.0", only: :test},
+      {:mox, "~> 0.5", only: :test},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.9"},

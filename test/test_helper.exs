@@ -2,3 +2,4 @@
 ExUnit.configure(timeout: :infinity)
 ExUnit.start()
 Ecto.Adapters.SQL.Sandbox.mode(Cookpod.Repo, :manual)
+Mox.defmock(EmailKitMock, for: Cookpod.EmailKitBehaviour)
